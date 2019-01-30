@@ -96,6 +96,25 @@ public class TetrisManiaImpl implements ExamOp
 	{
 		// 创建积木之后
 		//update();
+		int i = 0;
+		int j = 0;
+		for(i = 0 ; i< 9;i++)
+		{
+			if(queue[i] == 66)
+			{
+			    queue[i] = ids[j];
+			    length --;
+			    if(length == 0)
+			    {
+			    	return new OpResult(ReturnCode.S001);
+			    }
+			    if(i==9 && length!=0)
+			    {
+			    	return new OpResult(ReturnCode.E006);
+			    }
+			}
+		}
+		
 		return new OpResult(ReturnCode.E001);
 	}
 
