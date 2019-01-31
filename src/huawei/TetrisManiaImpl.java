@@ -17,7 +17,7 @@ public class TetrisManiaImpl implements ExamOp
 	private int sys_time;
 	private int[] queue=new int[10];
 	private int current_building_block_order;
-	private Panel panel;
+	private MyPanel panel;
 	private int is_active;             //当前是否有活动积木,0表示当前panel内务活动积木
 	/**
 	 * ReturnCode(返回码枚举) .E001：非法命令 .E002：非法积木编号 .E003：非法移动距离 .E004：非法时间
@@ -43,7 +43,7 @@ public class TetrisManiaImpl implements ExamOp
 	public TetrisManiaImpl()
 	{
 		this.is_active = 0; 
-		this.panel=new Panel();
+		this.panel=new MyPanel();
 		this.sys_time = 0;
 		for(int i=0; i< 10;i++) {
 			this.queue[i] = 66;  // 66 means that the position in queue is empty.
@@ -73,7 +73,7 @@ public class TetrisManiaImpl implements ExamOp
 	@Override
 	public OpResult reset()
 	{
-		this.panel=new Panel();
+		this.panel=new MyPanel();
 		this.sys_time = 0;
 		for(int i=0; i< 10;i++) {
 			this.queue[i] = 66;  // 66 means that the position in queue is empty.
@@ -96,8 +96,11 @@ public class TetrisManiaImpl implements ExamOp
 	{
 		// 创建积木之后
 		//update();
+		// 创建积木之后
+		//update();
 		int i = 0;
 		int j = 0;
+		int length=queue.length;
 		for(i = 0 ; i< 9;i++)
 		{
 			if(queue[i] == 66)
@@ -578,9 +581,27 @@ public class TetrisManiaImpl implements ExamOp
 	 * @return 查询结果
 	 */
 	@Override
-	public OpResult queryPanel(int time)
+	public OpResult queryQueue(int time)
 	{
-		return new OpResult(ReturnCode.E001);
+		if(time<this.sys_time){
+			return new OpResult(ReturnCode.E008);
+		}else{
+			time_go(time-this.sys_time);
+			int i=0;
+			
+			for(i=0;i<10;i++){
+				if(this.queue[i]==66){
+					break;
+				}
+			}
+			int length=i;
+			int[] list=new int[length];
+			for(i=0;i<length;i++){
+				list[i]=this.queue[i];
+			}
+			
+			return new OpResult(new Queue(list));
+		}
 	}
 
 	/**
@@ -591,10 +612,34 @@ public class TetrisManiaImpl implements ExamOp
 	 * @return 查询结果
 	 */
 	@Override
-	public OpResult queryQueue(int time)
+	public OpResult queryPanel(int time)
 	{
-		return new OpResult(ReturnCode.E001);
+		if(time<this.sys_time){
+			return new OpResult(ReturnCode.E008);
+		}else{
+			time_go(time-this.sys_time);
+			int i,j;
+			FillType[][] blocks=new FillType[12][8];
+			for(i=0;i<12;i++){
+				for(j=0;j<8;j++){
+					if(this.panel.table[i][j]==Element.point){
+						blocks[i][j]=FillType.NONE;
+					}else if(this.panel.table[i][j]==Element.star){
+						blocks[i][j]=FillType.ACTIVE;
+					}else{
+						blocks[i][j]=FillType.FIXED;
+					}
+				}
+			}
+			Panel temp=new Panel(blocks);
+			return new OpResult(temp);
+		}
 	}
 
-
+	public void time_go(int t){
+		int i=0;
+		for(i=0;i<t;i++){
+			moveDown(1);
+		}
+	}
 }
