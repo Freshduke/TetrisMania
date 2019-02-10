@@ -226,6 +226,7 @@ public class TetrisManiaImpl implements ExamOp
 						queue[9] = 66;
 					}
 				}
+
 			}
 		}
 	}
@@ -464,38 +465,39 @@ public class TetrisManiaImpl implements ExamOp
 				}
 				else
 				{
-					if(this.panel.table[row+3][column] == Element.star)
+					if(this.panel.table[row+3][column] == Element.star && this.panel.table[row+3][column-2] == Element.star)
 					{
 						return 2;  // rotate 2
 					}
-					else if(this.panel.table[row+2][column] == Element.star)
+					else if(this.panel.table[row+3][column+3] == Element.star && this.panel.table[row+3][column+1] == Element.star)
 					{
 						return 3;  // rotate 3
 					}
-					else
+					else if(this.panel.table[row+1][column+3] == Element.star)
 					{
-						return 3;   // rotate 3
+						return 1;   // rotate 1
 					}
 				}
-
 				break;
 
 			case 9:
 
-				if(this.panel.table[row+2][column+2] == Element.star) {
-					if (this.panel.table[row + 2][column] == Element.star) {
-						return 3; //rotate 3
-					} else {
-						return 1;  // rotate 1
-					}
+				if(this.panel.table[row+2][column+2] == Element.star && this.panel.table[row+2][column] == Element.star)
+				{
+					return 3; //rotate 3
 				}
-				else {
-					if (this.panel.table[row + 1][column - 1] == Element.star) {
-						return 2; // rotate 2
-					} else {
-						return 0; // rotate 0
-					}
+				else if (this.panel.table[row + 2][column+2] == Element.star && this.panel.table[row][column+2] == Element.star) {
+					return 1;  // rotate 1
 				}
+				else if(this.panel.table[row + 2][column - 1] == Element.star)
+				{
+					return 2; // rotate 2
+				}
+				else if(this.panel.table[row + 2][column] == Element.star && this.panel.table[row][column+2] == Element.star)
+				{
+					return 0; // rotate 0
+				}
+				break;
 
 			case 10: 	return 0;
 		}
@@ -636,7 +638,7 @@ public class TetrisManiaImpl implements ExamOp
 		case 4:
 			 for(i=0; i< 12;i++)
 		     {
-				for(j=0; j<8; j++) 
+				for(j=0; j<8; j++)
 				{
 					if (this.panel.table[i][j] == Element.star)
 					{
@@ -648,32 +650,31 @@ public class TetrisManiaImpl implements ExamOp
 					break;
 				}
 		     }
+
 			 if(this.panel.table[i+2][j+2] == Element.star)
 			 {
 				 if(this.panel.table[i+2][j] == Element.star)
 				 {
 					 this.panel.table[i+2][j+2] = Element.point; //rotate 3
-					 this.panel.table[i][j+2] = Element.star; 
+					 this.panel.table[i][j+2] = Element.star;
 				 }
 				 else
 				 {
 					 this.panel.table[i][j] = Element.point;   // rotate 1
-					 this.panel.table[i+2][j] = Element.star;  
+					 this.panel.table[i+2][j] = Element.star;
 				 }
+			 }
+			 else if(this.panel.table[i+1][j-1] == Element.star)
+			 {
+				 this.panel.table[i][j-1] = Element.star;   // rotate 2
+				 this.panel.table[i][j+1] = Element.point;
 			 }
 			 else
 			 {
-				 if(this.panel.table[i+1][j-1] == Element.star)
-				 {
-					 this.panel.table[i][j-1] = Element.star;   // rotate 2
-					 this.panel.table[i][j+1] = Element.point; 
-				 }
-				 else
-				 {
-					 this.panel.table[i][j+2] = Element.point;   // rotate 0
-					 this.panel.table[i+2][j+2] = Element.star;
-				 }
+				 this.panel.table[i][j+2] = Element.point;   // rotate 0
+				 this.panel.table[i+2][j+2] = Element.star;
 			 }
+
 			 
 		case 5: 	 
 			 for(i=0; i< 12;i++)
@@ -682,11 +683,11 @@ public class TetrisManiaImpl implements ExamOp
 				{
 					if (this.panel.table[i][j] == Element.star)
 					{
-						is_break_loop[4] = 1;
+						is_break_loop[5] = 1;
 						break;
 					}
 				}
-				if(is_break_loop[4] == 1){
+				if(is_break_loop[5] == 1){
 					break;
 				}
 		     }
@@ -724,11 +725,11 @@ public class TetrisManiaImpl implements ExamOp
 				{
 					if (this.panel.table[i][j] == Element.star)
 					{
-						is_break_loop[4] = 1;
+						is_break_loop[6] = 1;
 						break;
 					}
 				}
-				if(is_break_loop[4] == 1){
+				if(is_break_loop[6] == 1){
 					break;
 				}
 		     }
@@ -772,11 +773,11 @@ public class TetrisManiaImpl implements ExamOp
 				{
 					if (this.panel.table[i][j] == Element.star)
 					{
-						is_break_loop[4] = 1;
+						is_break_loop[7] = 1;
 						break;
 					}
 				}
-				if(is_break_loop[4] == 1){
+				if(is_break_loop[7] == 1){
 					break;
 				}
 		     }
@@ -821,11 +822,11 @@ public class TetrisManiaImpl implements ExamOp
 				{
 					if (this.panel.table[i][j] == Element.star)
 					{
-						is_break_loop[4] = 1;
+						is_break_loop[8] = 1;
 						break;
 					}
 				}
-				if(is_break_loop[4] == 1){
+				if(is_break_loop[8] == 1){
 					break;
 				}
 		     }
@@ -897,42 +898,35 @@ public class TetrisManiaImpl implements ExamOp
 				{
 					if (this.panel.table[i][j] == Element.star)
 					{
-						is_break_loop[4] = 1;
+						is_break_loop[9] = 1;
 						break;
 					}
 				}
-				if(is_break_loop[4] == 1){
+				if(is_break_loop[9] == 1){
 					break;
 				}
 		     }
 			 
-			 if(this.panel.table[i+2][j+2] == Element.star)
+			 if(this.panel.table[i+2][j+2] == Element.star && this.panel.table[i+2][j] == Element.star)
 			 {
-				 if(this.panel.table[i+2][j] == Element.star)
-				 {
-					 this.panel.table[i+2][j+2] = Element.point; //rotate 3
-					 this.panel.table[i][j+2] = Element.star; 
-				 }
-				 else
-				 {
-					 this.panel.table[i][j] = Element.point;   // rotate 1
-					 this.panel.table[i+2][j] = Element.star;  
-				 }
+				 this.panel.table[i+2][j+2] = Element.point; //rotate 3
+				 this.panel.table[i][j+2] = Element.star;
 			 }
-			 else
+			 else if(this.panel.table[i+2][j+2] == Element.star)
 			 {
-				 if(this.panel.table[i+1][j-1] == Element.star)
-				 {
+				 this.panel.table[i][j] = Element.point;   // rotate 1
+				 this.panel.table[i+2][j] = Element.star;
+			 }
+			 else if(this.panel.table[i+1][j-1] == Element.star)
+	         {
 					 this.panel.table[i][j-1] = Element.star;   // rotate 2
 					 this.panel.table[i][j+1] = Element.point; 
-				 }
-				 else
-				 {
-					 this.panel.table[i][j+2] = Element.point;   // rotate 0
-					 this.panel.table[i+2][j+2] = Element.star;
-				 }
+	         }
+			 else
+			{
+				 this.panel.table[i][j+2] = Element.point;   // rotate 0
+				 this.panel.table[i+2][j+2] = Element.star;
 			 }
-			 
 			 break;
 			 
 		case 10: 	break;
