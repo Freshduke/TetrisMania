@@ -5,7 +5,7 @@ import java.util.List;
 
 import huawei.exam.*;
 
-/**
+/*
  * 实现类
  * 
  * 各方法请按要求返回，考试框架负责报文输出
@@ -19,25 +19,26 @@ public class TetrisManiaImpl implements ExamOp
 	private int current_building_block_order;
 	private Panel panel;
 	private int is_active;                      //当前是否有活动积木,0表示当前panel内务活动积木
-	/**
+	private int is_end;                         //当前游戏结束条件，
+	/*
 	 * ReturnCode(返回码枚举) .E001：非法命令 .E002：非法积木编号 .E003：非法移动距离 .E004：非法时间
 	 * .E005：游戏结束 .E006：积木队列空间不足 .E007：游戏面板中不存在活动积木 .E008：操作时间不得小于系统时间
 	 * .S001：操作成功
 	 */
 
-	/**
+	/*
 	 * Panel(游戏面板类) Panel(FillType[][] fillTypes)：构造函数，fillTypes - 填充类型矩阵
 	 */
 
-	/**
+	/*
 	 * FillType(填充类型枚举) .NONE：无积木填充 .FIXED：固定积木填充 .ACTIVE：活动积木填充
 	 */
 
-	/**
+	/*
 	 * Queue(积木队列类) Queue(int[] blocks)：构造函数，blocks - 积木编号数组
 	 */
 
-	/**
+	/*
 	 * 待考生实现，构造函数
 	 */
 	public TetrisManiaImpl()
@@ -55,7 +56,8 @@ public class TetrisManiaImpl implements ExamOp
 		if (is_active == 1) {}
 		else {
 			if (queue[0]!= 66) {
-				is_active = 1;
+
+				is_active = 1;                           // 需要判断确实能够放下初始积木，否则不能放下初始积木。
 				current_building_block_order = queue[0];
 				for (int i=0; i<9;i++) {
 					queue[i] = queue[i+1];
@@ -65,7 +67,7 @@ public class TetrisManiaImpl implements ExamOp
 		}
 	}
 	
-	/**
+	/*
 	 * 将系统重置为初始状态
 	 * 
 	 * @return 返回码
@@ -81,7 +83,7 @@ public class TetrisManiaImpl implements ExamOp
 		return new OpResult(ReturnCode.S001);
 	}
 
-	/**
+	/*
 	 * (1) 创建指定编号的一个或多个积木，新创建的积木按命令参数从左至右的顺序加入积木队列。此时若游戏面板中不存在活动积木，
 	 * 系统从积木队列中取出居于首位的积木，在游戏面板中指定位置生成； (2) 积木编号取[0, 10]范围内的整数，值的合法性不作为考点，考生无须关注；
 	 * (3) 命令携带参数个数取[1, 10]内的整数，值的合法性不作为考点，考生无须关注。
@@ -117,7 +119,7 @@ public class TetrisManiaImpl implements ExamOp
 		return new OpResult(ReturnCode.E001);
 	}
 
-	/**
+	/*
 	 * (1) 将活动积木向左移动指定的距离，移动距离以宫格数量计量； (2)
 	 * 在移动过程中，当活动积木中任一方块的左边界与游戏面板左边界或固定积木方块右边界接触时，活动积木无法继续左移，
 	 * 系统对本次操作命令的处理终结，左移操作成功； (3)
@@ -135,9 +137,24 @@ public class TetrisManiaImpl implements ExamOp
 		// 首先判断活动积木的行列索引
 		// 再判断当前的旋转状态。
 
-		int row;      // 当前活动元素的左上角元素行列索引(row,column)
-		int column;
+		int row = 0;      // 当前活动元素的左上角元素行列索引(row,column)
+		int column = 0;
 		int rotate_state;
+		int is_break_loop =0;
+		for( row = 0; row< 12; row++)
+		{
+			for(column = 0; column<8; column++)
+			{
+				if (this.panel.table[row][column] == Element.star)
+				{
+					is_break_loop=1;
+					break;
+				}
+			}
+			if(is_break_loop == 1){
+				break;
+			}
+		}
 		rotate_state = judge_rotate_state(row,column);
 
 
@@ -328,9 +345,10 @@ public class TetrisManiaImpl implements ExamOp
 
 			case 10: 	return 0;
 		}
+		return 9;        // 当前没有活动积木，或者错误情况下
 	}
-	/**
-	 * (1) 将活动积木向右移动指定的距离，移动距离以宫格数量计量； (2)
+	/*
+	 * (1)将活动积木向右移动指定的距离，移动距离以宫格数量计量； (2)
 	 * 在移动过程中，当活动积木中任一方块的右边界与游戏面板右边界或固定积木方块左边界接触时，
 	 * 活动积木无法继续右移，系统对本次操作命令的处理终结，右移操作成功； (3)
 	 * 因面板边界或其它积木阻挡导致实际可移动距离小于输入的移动距离时，活动积木只按实际距离移动并返回操作成功； (4)
@@ -347,7 +365,7 @@ public class TetrisManiaImpl implements ExamOp
 		return new OpResult(ReturnCode.E001);
 	}
 
-	/**
+	/*
 	 * (1) 将活动积木向下移动指定的距离，移动距离以宫格数量计量； (2)
 	 * 在移动过程中，当活动积木中任一方块的下边界与游戏面板下边界或固定积木方块上边界接触时，
 	 * 活动积木无法继续下移，系统对本次操作命令的处理终结，下移操作成功； (3)
@@ -365,7 +383,7 @@ public class TetrisManiaImpl implements ExamOp
 		return new OpResult(ReturnCode.E001);
 	}
 
-	/**
+	/*
 	 * (1) 将活动积木顺时针旋转一次； (2) 活动积木无法旋转时，保持当前位置与形态不变。
 	 * 
 	 * @return 返回码
@@ -768,7 +786,7 @@ public class TetrisManiaImpl implements ExamOp
 		return new OpResult(ReturnCode.E001);
 	}
 
-	/**
+	/*
 	 * (1) 时间不小于当前系统时间时，优先触发系统时间更新至命令携带的时间，在指定时间点对游戏面板进行查询，； (2)
 	 * 时间取[0,1000]范围内整数，值的合法性不作为考点，考生无须关注； (3)
 	 * 本命令不受游戏进度影响，即使游戏结束，命令依然生效，将系统时间更新至输入的时间并输出查询结果。
@@ -783,7 +801,7 @@ public class TetrisManiaImpl implements ExamOp
 		return new OpResult(ReturnCode.E001);
 	}
 
-	/**
+	/*
 	 * 查询积木队列
 	 * 
 	 * @param time
