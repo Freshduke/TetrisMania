@@ -17,8 +17,8 @@ public class TetrisManiaImpl implements ExamOp
 	private int sys_time;
 	private int[] queue=new int[10];
 	private int current_building_block_order;
-	private MyPanel panel;
-	private int is_active;             //当前是否有活动积木,0表示当前panel内务活动积木
+	private Panel panel;
+	private int is_active;                      //当前是否有活动积木,0表示当前panel内务活动积木
 	/**
 	 * ReturnCode(返回码枚举) .E001：非法命令 .E002：非法积木编号 .E003：非法移动距离 .E004：非法时间
 	 * .E005：游戏结束 .E006：积木队列空间不足 .E007：游戏面板中不存在活动积木 .E008：操作时间不得小于系统时间
@@ -43,7 +43,7 @@ public class TetrisManiaImpl implements ExamOp
 	public TetrisManiaImpl()
 	{
 		this.is_active = 0; 
-		this.panel=new MyPanel();
+		this.panel=new Panel();
 		this.sys_time = 0;
 		for(int i=0; i< 10;i++) {
 			this.queue[i] = 66;  // 66 means that the position in queue is empty.
@@ -73,7 +73,7 @@ public class TetrisManiaImpl implements ExamOp
 	@Override
 	public OpResult reset()
 	{
-		this.panel=new MyPanel();
+		this.panel=new Panel();
 		this.sys_time = 0;
 		for(int i=0; i< 10;i++) {
 			this.queue[i] = 66;  // 66 means that the position in queue is empty.
@@ -94,13 +94,9 @@ public class TetrisManiaImpl implements ExamOp
 	@Override
 	public OpResult create(int[] ids)
 	{
-		// 创建积木之后
-		//update();
-		// 创建积木之后
-		//update();
 		int i = 0;
 		int j = 0;
-		int length=queue.length;
+		int length = ids.length;
 		for(i = 0 ; i< 9;i++)
 		{
 			if(queue[i] == 66)
@@ -136,10 +132,203 @@ public class TetrisManiaImpl implements ExamOp
 	@Override
 	public OpResult moveLeft(int distance)
 	{
-		
+		// 首先判断活动积木的行列索引
+		// 再判断当前的旋转状态。
+
+		int row;      // 当前活动元素的左上角元素行列索引(row,column)
+		int column;
+		int rotate_state;
+		rotate_state = judge_rotate_state(row,column);
+
+
 		return new OpResult(ReturnCode.E001);
 	}
 
+	public int judge_rotate_state(int row, int column){
+
+		int[] is_break_loop = new int[11];  //is_break_loop 用于判定是否跳出双层for循环
+		for (int i =0; i< 10 ; i++)
+		{
+			is_break_loop[i] = 0;
+		}
+		switch(current_building_block_order) {
+			case 0: return 0;
+			case 1:   // 检测活动积木左上角的位置
+				if(this.panel.table[row+1][column] == Element.star)
+				{
+					if(this.panel.table[row][column+1] == Element.star)
+					{
+						if(this.panel.table[row+1][column+1] == Element.star)
+						{
+							return 2;//旋转两次
+						}
+						else
+						{								//初始状态
+							return 0;
+						}
+					}
+					else    					//旋转3次状态
+					{
+						return 3;
+					}
+				}
+				else  							// 旋转一次状态
+				{
+					return 1;
+				}
+
+			case 2:
+
+				if(this.panel.table[row][column+1] == Element.star)
+				{ 								//初始状态 旋转2
+					return 0;
+				}
+				else {                                    //旋转1/3
+					return 1;
+				}
+
+
+			case 3: return 0;
+
+			case 4:
+
+				if(this.panel.table[row+2][column+2] == Element.star)
+				{
+					if(this.panel.table[row+2][column] == Element.star)
+					{
+						return 3; //rotate 3
+					}
+					else
+					{
+						return 1;  // rotate 1
+					}
+				}
+				else
+				{
+					if(this.panel.table[row+1][column-1] == Element.star)
+					{
+						return 2;   // rotate 2
+					}
+					else
+					{
+						return 0;  // rotate 0
+					}
+				}
+
+			case 5:   //########################################################################！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+
+				if( this.panel.table[row+1][column-1] == Element.star)
+				{
+					return 0;   // rotate 0
+				}
+				else
+				{
+					if(this.panel.table[row+2][column] == Element.star && this.panel.table[row][column+2] == Element.star)
+					{
+						return 2;   // rotate 2   //########################################################################！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+					}
+					else if(this.panel.table[row][column+2] == Element.star && this.panel.table[row+2][column+2] == Element.star)
+					{
+						return 3;   // rotate 3   //########################################################################！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+					}
+					else if(this.panel.table[row+2][column] == Element.star && this.panel.table[row+2][column+2] == Element.star)
+					{
+						return 1;   // rotate 1   //########################################################################！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+					}
+				}
+
+			case 6:
+
+				if( this.panel.table[row+1][column] != Element.star)
+				{
+				 // rotate 1
+					 return 1;
+				}
+				else
+				{
+					if(this.panel.table[row][column+1] == Element.point)
+					{
+						return 2;  // rotate 2
+					}
+					else if(this.panel.table[row+2][column+2] == Element.star)
+					{
+						return 3;  // rotate 3
+					}
+					else
+					{
+						return 0;  // rotate 0
+					}
+				}
+				break;
+
+			case 7:
+
+				if( this.panel.table[row+2][column-1] != Element.star)
+				{
+					return 0;  // rotate 0
+				}
+				else
+				{
+					if(this.panel.table[row][column+1] == Element.point)
+					{
+						return 1;   // rotate 1
+					}
+					else if(this.panel.table[row+2][column+2] == Element.star)
+					{
+						return 3;  // rotate 3
+					}
+					else
+					{
+						return 2;   // rotate 2
+					}
+				}
+				break;
+
+
+			case 8:
+
+				if( this.panel.table[row+1][column-1] == Element.point)
+				{
+					return 0;  // rotate 0
+				}
+				else
+				{
+					if(this.panel.table[row+3][column] == Element.star)
+					{
+						return 2;  // rotate 2
+					}
+					else if(this.panel.table[row+2][column] == Element.star)
+					{
+						return 3;  // rotate 3
+					}
+					else
+					{
+						return 3;   // rotate 3
+					}
+				}
+
+				break;
+
+			case 9:
+
+				if(this.panel.table[row+2][column+2] == Element.star) {
+					if (this.panel.table[row + 2][column] == Element.star) {
+						return 3; //rotate 3
+					} else {
+						return 1;  // rotate 1
+					}
+				}
+				else {
+					if (this.panel.table[row + 1][column - 1] == Element.star) {
+						return 2; // rotate 2
+					} else {
+						return 0; // rotate 0
+					}
+				}
+
+			case 10: 	return 0;
+		}
+	}
 	/**
 	 * (1) 将活动积木向右移动指定的距离，移动距离以宫格数量计量； (2)
 	 * 在移动过程中，当活动积木中任一方块的右边界与游戏面板右边界或固定积木方块左边界接触时，
@@ -184,6 +373,7 @@ public class TetrisManiaImpl implements ExamOp
 	@Override
 	public OpResult rotate()
 	{
+
 	    int i = 0;
 	    int j = 0;
 		int[] is_break_loop = new int[11];  //is_break_loop 用于判定是否跳出双层for循环
@@ -328,24 +518,31 @@ public class TetrisManiaImpl implements ExamOp
 					break;
 				}
 		     }
-			 if( this.panel.table[i+1][j-1] == Element.star)
-			 {
-				 this.panel.table[i][j-1] = Element.star;   // rotate 0
-				 this.panel.table[i][j+1] = Element.point; 
-			 }
-			 else
-			 {
-				 if(this.panel.table[i+2][j] == Element.star)
-				 {
-					 this.panel.table[i][j+2] = Element.star;   // rotate 3
-					 this.panel.table[i][j] = Element.point;			 
-				 }
-				 else if(this.panel.table[i][j+2] == Element.star)
-				 {
-					 this.panel.table[i][j+2] = Element.point;   // rotate 2
-					 this.panel.table[i+2][j+2] = Element.star;
-				 }
-			 }
+
+
+			if( this.panel.table[i+1][j-1] == Element.star)
+			{
+				this.panel.table[i][j-1] = Element.star;   // rotate 0
+				this.panel.table[i][j+1] = Element.point;
+			}
+			else
+			{
+				if(this.panel.table[i+2][j] == Element.star && this.panel.table[i][j+2] == Element.star)
+				{
+					this.panel.table[i][j+2] = Element.point;   // rotate 2
+					this.panel.table[i+2][j+2] = Element.star;
+				}
+				else if(this.panel.table[i][j+2] == Element.star && this.panel.table[i+2][j+2] == Element.star)
+				{
+					this.panel.table[i][j+2] = Element.star;   // rotate 3
+					this.panel.table[i][j] = Element.point;
+				}
+				else if(this.panel.table[i+2][j] == Element.star && this.panel.table[i+2][j+2] == Element.star)
+				{
+					this.panel.table[i][j+2] = Element.star;   // rotate 2
+					this.panel.table[i+2][j+2] = Element.point;
+				}
+			}
 			 break;
 			 
 		case 6:
@@ -581,27 +778,9 @@ public class TetrisManiaImpl implements ExamOp
 	 * @return 查询结果
 	 */
 	@Override
-	public OpResult queryQueue(int time)
+	public OpResult queryPanel(int time)
 	{
-		if(time<this.sys_time){
-			return new OpResult(ReturnCode.E008);
-		}else{
-			time_go(time-this.sys_time);
-			int i=0;
-			
-			for(i=0;i<10;i++){
-				if(this.queue[i]==66){
-					break;
-				}
-			}
-			int length=i;
-			int[] list=new int[length];
-			for(i=0;i<length;i++){
-				list[i]=this.queue[i];
-			}
-			
-			return new OpResult(new Queue(list));
-		}
+		return new OpResult(ReturnCode.E001);
 	}
 
 	/**
@@ -612,34 +791,10 @@ public class TetrisManiaImpl implements ExamOp
 	 * @return 查询结果
 	 */
 	@Override
-	public OpResult queryPanel(int time)
+	public OpResult queryQueue(int time)
 	{
-		if(time<this.sys_time){
-			return new OpResult(ReturnCode.E008);
-		}else{
-			time_go(time-this.sys_time);
-			int i,j;
-			FillType[][] blocks=new FillType[12][8];
-			for(i=0;i<12;i++){
-				for(j=0;j<8;j++){
-					if(this.panel.table[i][j]==Element.point){
-						blocks[i][j]=FillType.NONE;
-					}else if(this.panel.table[i][j]==Element.star){
-						blocks[i][j]=FillType.ACTIVE;
-					}else{
-						blocks[i][j]=FillType.FIXED;
-					}
-				}
-			}
-			Panel temp=new Panel(blocks);
-			return new OpResult(temp);
-		}
+		return new OpResult(ReturnCode.E001);
 	}
 
-	public void time_go(int t){
-		int i=0;
-		for(i=0;i<t;i++){
-			moveDown(1);
-		}
-	}
+
 }
