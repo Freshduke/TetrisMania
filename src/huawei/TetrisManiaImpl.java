@@ -56,12 +56,175 @@ public class TetrisManiaImpl implements ExamOp
 		if (is_active == 1) {}
 		else {
 			if (queue[0]!= 66) {
-
-				is_active = 1;                           // 需要判断确实能够放下初始积木，否则不能放下初始积木。
 				current_building_block_order = queue[0];
-				for (int i=0; i<9;i++) {
-					queue[i] = queue[i+1];
-					queue[9] = 66;
+				switch (current_building_block_order){
+					case 0:
+						if(this.panel.table[0][3] == Element.point ){
+							is_active = 1;                           // 需要判断确实能够放下初始积木，然后更新当前面板，并且将is_active设置为1，如果无法放下积木，则游戏结束，将is_end设置为1.
+							this.panel.table[0][3] = Element.star;
+						}
+						else
+						{
+							is_end = 1;
+						}
+						break;
+					case 1:
+						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][3] == Element.point){
+							is_active = 1;
+							this.panel.table[0][3] = Element.star;
+							this.panel.table[0][4] = Element.star;
+							this.panel.table[1][3] = Element.star;
+						}
+						else
+						{
+							is_end = 1;
+						}
+						break;
+					case 2:
+						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][2] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point && this.panel.table[2][2] == Element.point && this.panel.table[2][3] == Element.point )
+						{
+							this.panel.table[0][3] = Element.star;
+							this.panel.table[0][4] = Element.star;
+							this.panel.table[1][2] = Element.star;
+							this.panel.table[1][3] = Element.star;
+							this.panel.table[1][4] = Element.star;
+							this.panel.table[2][2] = Element.star;
+							this.panel.table[2][3] = Element.star;
+							is_active = 1;
+						}
+						else{
+							is_end = 1;
+						}
+						break;
+					case 3:
+						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point ){
+							this.panel.table[0][3] = Element.star;
+							this.panel.table[0][4] = Element.star;
+							this.panel.table[1][3] = Element.star;
+							this.panel.table[1][4] = Element.star;
+							is_active = 1;
+						}
+						else{
+							is_end = 1;
+						}
+						break;
+					case 4:
+						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[0][5] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point  && this.panel.table[1][5] == Element.point && this.panel.table[2][3] == Element.point && this.panel.table[2][4] == Element.point )
+						{
+							this.panel.table[0][3] = Element.star;
+							this.panel.table[0][4] = Element.star;
+							this.panel.table[0][5] = Element.star;
+							this.panel.table[1][3] = Element.star;
+							this.panel.table[1][4] = Element.star;
+							this.panel.table[1][5] = Element.star;
+							this.panel.table[0][3] = Element.star;
+							this.panel.table[0][4] = Element.star;
+							is_active = 1;
+						}
+						else{
+							is_end = 1;
+						}
+						break;
+					case 5:
+						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][2] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point  && this.panel.table[2][2] == Element.point && this.panel.table[2][3] == Element.point && this.panel.table[2][4] == Element.point ) {
+							this.panel.table[0][3] = Element.star;
+							this.panel.table[0][4] = Element.star;
+							this.panel.table[1][2] = Element.star;
+							this.panel.table[1][3] = Element.star;
+							this.panel.table[1][4] = Element.star;
+							this.panel.table[2][2] = Element.star;
+							this.panel.table[2][3] = Element.star;
+							this.panel.table[2][4] = Element.star;
+							is_active = 1;
+						}
+						else{
+							is_end = 1;
+						}
+						break;
+					case 6:
+						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[0][5] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point  && this.panel.table[1][5] == Element.point && this.panel.table[2][3] == Element.point ) {
+							this.panel.table[0][3] = Element.star;
+							this.panel.table[0][4] = Element.star;
+							this.panel.table[0][5] = Element.star;
+							this.panel.table[1][3] = Element.star;
+							this.panel.table[1][4] = Element.star;
+							this.panel.table[1][5] = Element.star;
+							this.panel.table[2][3] = Element.star;
+							is_active = 1;
+						}
+						else{
+							is_end = 1;
+						}
+						break;
+					case 7:
+						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point && this.panel.table[2][3] == Element.point  && this.panel.table[2][3] == Element.point && this.panel.table[2][4] == Element.point ) {
+							this.panel.table[0][3] = Element.star;
+							this.panel.table[0][4] = Element.star;
+							this.panel.table[1][3] = Element.star;
+							this.panel.table[1][4] = Element.star;
+							this.panel.table[2][2] = Element.star;
+							this.panel.table[2][3] = Element.star;
+							this.panel.table[2][4] = Element.star;
+							is_active = 1;
+						}
+						else{
+							is_end = 1;
+						}
+						break;
+					case 8:
+						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[0][5] == Element.point && this.panel.table[1][2] == Element.point && this.panel.table[1][3] == Element.point  && this.panel.table[1][4] == Element.point && this.panel.table[1][5] == Element.point && this.panel.table[2][2] == Element.point && this.panel.table[2][3] == Element.point && this.panel.table[3][2] == Element.point && this.panel.table[3][3] == Element.point) {
+							this.panel.table[0][3] = Element.star;
+							this.panel.table[0][4] = Element.star;
+							this.panel.table[0][5] = Element.star;
+							this.panel.table[1][2] = Element.star;
+							this.panel.table[1][3] = Element.star;
+							this.panel.table[1][4] = Element.star;
+							this.panel.table[1][5] = Element.star;
+							this.panel.table[2][2] = Element.star;
+							this.panel.table[2][3] = Element.star;
+							this.panel.table[3][2] = Element.star;
+							this.panel.table[3][3] = Element.star;
+							is_active = 1;
+						}
+						else{
+							is_end = 1;
+						}
+						break;
+
+					case 9:
+						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[0][5] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point  && this.panel.table[1][5] == Element.point && this.panel.table[2][3] == Element.point && this.panel.table[2][4] == Element.point  ) {
+							this.panel.table[0][3] = Element.star;
+							this.panel.table[0][4] = Element.star;
+							this.panel.table[0][5] = Element.star;
+							this.panel.table[1][3] = Element.star;
+							this.panel.table[1][4] = Element.star;
+							this.panel.table[1][5] = Element.star;
+							this.panel.table[2][3] = Element.star;
+							this.panel.table[2][4] = Element.star;
+							is_active = 1;
+						}
+						else{
+							is_end = 1;
+						}
+						break;
+					case 10:
+						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point ){
+							this.panel.table[0][3] = Element.star;
+							this.panel.table[0][4] = Element.star;
+							this.panel.table[1][3] = Element.star;
+							this.panel.table[1][4] = Element.star;
+							is_active = 1;
+						}
+						else{
+							is_end = 1;
+						}
+						break;
+				}
+				if(is_active == 1) {
+					for (int i = 0; i < 9; i++) {
+						queue[i] = queue[i + 1];
+						queue[9] = 66;
+					}
 				}
 			}
 		}
@@ -115,7 +278,6 @@ public class TetrisManiaImpl implements ExamOp
 			    }
 			}
 		}
-		
 		return new OpResult(ReturnCode.E001);
 	}
 
@@ -261,22 +423,15 @@ public class TetrisManiaImpl implements ExamOp
 				 // rotate 1
 					 return 1;
 				}
-				else
-				{
-					if(this.panel.table[row][column+1] == Element.point)
-					{
+				else {
+					if (this.panel.table[row][column + 1] == Element.point) {
 						return 2;  // rotate 2
-					}
-					else if(this.panel.table[row+2][column+2] == Element.star)
-					{
+					} else if (this.panel.table[row + 2][column + 2] == Element.star) {
 						return 3;  // rotate 3
-					}
-					else
-					{
+					} else {
 						return 0;  // rotate 0
 					}
 				}
-				break;
 
 			case 7:
 
@@ -299,7 +454,6 @@ public class TetrisManiaImpl implements ExamOp
 						return 2;   // rotate 2
 					}
 				}
-				break;
 
 
 			case 8:
