@@ -17,7 +17,7 @@ public class TetrisManiaImpl implements ExamOp
 	private int sys_time;
 	private int[] queue=new int[10];
 	private int current_building_block_order;
-	private Panel panel;
+	private MyPanel panel;
 	private int is_active;                      //当前是否有活动积木,0表示当前panel内务活动积木
 	private int is_end;                         //当前游戏结束条件，
 	/*
@@ -44,7 +44,7 @@ public class TetrisManiaImpl implements ExamOp
 	public TetrisManiaImpl()
 	{
 		this.is_active = 0; 
-		this.panel=new Panel();
+		this.panel=new MyPanel();
 		this.sys_time = 0;
 		for(int i=0; i< 10;i++) {
 			this.queue[i] = 66;  // 66 means that the position in queue is empty.
@@ -239,7 +239,7 @@ public class TetrisManiaImpl implements ExamOp
 	@Override
 	public OpResult reset()
 	{
-		this.panel=new Panel();
+		this.panel=new MyPanel();
 		this.sys_time = 0;
 		for(int i=0; i< 10;i++) {
 			this.queue[i] = 66;  // 66 means that the position in queue is empty.
