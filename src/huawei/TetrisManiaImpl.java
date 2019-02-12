@@ -749,7 +749,7 @@ public class TetrisManiaImpl implements ExamOp
 	 *
 	 *
 	 * /
-	 *//
+	 */
 	@Override
 	public OpResult moveRight(int distance)
 	{
@@ -1759,12 +1759,30 @@ public class TetrisManiaImpl implements ExamOp
 	 * @return 查询结果
 	 */
 	@Override
-	public OpResult queryPanel(int time)
+	public OpResult queryQueue(int time)
 	{
-		return new OpResult(ReturnCode.E001);
+		if(time<this.sys_time){
+			return new OpResult(ReturnCode.E008);
+		}else{
+			time_go(time-this.sys_time);
+			int i=0;
+			
+			for(i=0;i<10;i++){
+				if(this.queue[i]==66){
+					break;
+				}
+			}
+			int length=i;
+			int[] list=new int[length];
+			for(i=0;i<length;i++){
+				list[i]=this.queue[i];
+			}
+			
+			return new OpResult(new Queue(list));
+		}
 	}
 
-	/*
+	/**
 	 * 查询积木队列
 	 * 
 	 * @param time
@@ -1772,10 +1790,35 @@ public class TetrisManiaImpl implements ExamOp
 	 * @return 查询结果
 	 */
 	@Override
-	public OpResult queryQueue(int time)
+	public OpResult queryPanel(int time)
 	{
-		return new OpResult(ReturnCode.E001);
+		if(time<this.sys_time){
+			return new OpResult(ReturnCode.E008);
+		}else{
+			time_go(time-this.sys_time);
+			int i,j;
+			FillType[][] blocks=new FillType[12][8];
+			for(i=0;i<12;i++){
+				for(j=0;j<8;j++){
+					if(this.panel.table[i][j]==Element.point){
+						blocks[i][j]=FillType.NONE;
+					}else if(this.panel.table[i][j]==Element.star){
+						blocks[i][j]=FillType.ACTIVE;
+					}else{
+						blocks[i][j]=FillType.FIXED;
+					}
+				}
+			}
+			Panel temp=new Panel(blocks);
+			return new OpResult(temp);
+		}
 	}
 
+	public void time_go(int t){
+		int i=0;
+		for(i=0;i<t;i++){
+			moveDown(1);
+		}
+	}
 
 }
