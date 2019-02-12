@@ -1270,7 +1270,7 @@ public class TetrisManiaImpl implements ExamOp
 						break outer;
 					}
 
-			for(int i=11;i>=0;i--)  //若可继续下移，则对面板进行更新
+			for(int i=10;i>=0;i--)  //若可继续下移，则对面板进行更新
 				for(int j=0;j<8;j++)
 					if(this.panel.table[i][j] == Element.star)
 					{
