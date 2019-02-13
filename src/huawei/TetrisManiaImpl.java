@@ -269,6 +269,7 @@ public class TetrisManiaImpl implements ExamOp
 			{
 			    queue[i] = ids[j];
 			    length --;
+			    j++;
 			    if(length == 0)
 			    {
 			    	return new OpResult(ReturnCode.S001);
