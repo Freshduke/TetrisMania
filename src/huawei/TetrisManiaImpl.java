@@ -141,6 +141,12 @@ public class TetrisManiaImpl implements ExamOp
 		int column = 0;
 		int rotate_state;
 		int is_break_loop =0;
+		if(is_end == 1)  //判断当前是否已经游戏结束
+			return new OpResult(ReturnCode.E005);
+		if(is_active == 0)   // 判断当前是否还有可活动积木
+			return new OpResult(ReturnCode.E007);
+		
+		//游戏未结束且有可活动积木时方可进行move left 操作
 		for( row = 0; row< 12; row++)
 		{
 			for(column = 0; column<8; column++)
@@ -156,9 +162,110 @@ public class TetrisManiaImpl implements ExamOp
 			}
 		}
 		rotate_state = judge_rotate_state(row,column);
-
-
-		return new OpResult(ReturnCode.E001);
+        if(current_building_block_order == 0)
+        	this.panel.table[row][column] = Element.star;
+        
+        if(current_building_block_order == 1)
+          {
+        	if(rotate_state == 0 || rotate_state == 2)
+        	    {
+        	       this.panel.table[row][column] = Element.star;
+        	       this.panel.table[row+1][column] = Element.star;
+        	    };
+        	    
+            if(rotate_state == 1 || rotate_state == 3)
+        	    {
+        	       this.panel.table[row][column] = Element.star;
+        	       this.panel.table[row][column+1] = Element.star;
+        	    };
+        	    
+          };
+        
+        if(current_building_block_order == 2)
+          {
+        	if(rotate_state == 0 || rotate_state == 2)
+        	    {
+        	       this.panel.table[row][column] = Element.star;
+        	       this.panel.table[row+1][column] = Element.star;
+        	       this.panel.table[row+2][column] = Element.star;
+        	    };
+        	    
+            if(rotate_state == 1 || rotate_state == 3)
+        	    {
+     	           this.panel.table[row][column] = Element.star;
+     	           this.panel.table[row][column+1] = Element.star;
+     	           this.panel.table[row][column+2] = Element.star;
+        	    };
+        	    
+          };
+          
+        if(current_building_block_order == 6)
+          {
+          	if(rotate_state == 0 || rotate_state == 2)
+          	    {
+          	       this.panel.table[row][column] = Element.star;
+          	       this.panel.table[row+1][column] = Element.star;
+          	       this.panel.table[row+1][column-1] = Element.star;
+          	       this.panel.table[row+2][column-1] = Element.star;
+          	    };
+          	    
+              if(rotate_state == 1 || rotate_state == 3)
+          	    {
+       	           this.panel.table[row][column] = Element.star;
+       	           this.panel.table[row][column+1] = Element.star;
+       	           this.panel.table[row+1][column+1] = Element.star;
+       	           this.panel.table[row+1][column+2] = Element.star;
+          	    };
+          	    
+          }; 
+          
+        if(current_building_block_order == 7)
+          {
+          	if(rotate_state == 0 || rotate_state == 2)
+          	    {
+          	       this.panel.table[row][column] = Element.star;
+          	       this.panel.table[row+1][column] = Element.star;
+          	       this.panel.table[row+1][column+1] = Element.star;
+          	       this.panel.table[row+2][column+1] = Element.star;
+          	    };
+          	    
+              if(rotate_state == 1 || rotate_state == 3)
+          	    {
+       	           this.panel.table[row][column] = Element.star;
+       	           this.panel.table[row][column+1] = Element.star;
+       	           this.panel.table[row+1][column] = Element.star;
+       	           this.panel.table[row+1][column-1] = Element.star;
+          	    };
+          	    
+          }; 
+          
+        if(current_building_block_order == 8)
+          {
+          	if(rotate_state == 0 || rotate_state == 2)
+          	    {
+          	       this.panel.table[row][column] = Element.star;
+          	       this.panel.table[row+1][column] = Element.star;
+          	       this.panel.table[row+2][column] = Element.star;
+          	       this.panel.table[row+3][column] = Element.star;
+          	    };
+          	    
+              if(rotate_state == 1 || rotate_state == 3)
+          	    {
+       	           this.panel.table[row][column] = Element.star;
+       	           this.panel.table[row][column+1] = Element.star;
+       	           this.panel.table[row][column+2] = Element.star;
+       	           this.panel.table[row][column+3] = Element.star;
+          	    };
+          	    
+          }; 
+          
+        if(current_building_block_order == 10)
+          	{
+        	   this.panel.table[row][column] = Element.star;
+          	};
+          
+          
+		return new OpResult(ReturnCode.S001);
 	}
 
 	public int judge_rotate_state(int row, int column){
