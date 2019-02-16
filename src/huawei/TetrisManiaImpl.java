@@ -1164,7 +1164,7 @@ public class TetrisManiaImpl implements ExamOp
 					if(coloumn_start+1<8){
 							if(this.panel.table[row_start][coloumn_start+1]==Element.point){
 								update_rotate_state();System.out.println("Rotate Once!");	
-								this.panel.table[row_start-1][coloumn_start]=Element.point;
+								this.panel.table[row_start+1][coloumn_start]=Element.point;
 								this.panel.table[row_start][coloumn_start+1]=Element.star;
 							}
 					}
