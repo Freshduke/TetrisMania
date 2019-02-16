@@ -48,6 +48,10 @@ public class TetrisManiaImpl implements ExamOp
 		this.is_active = 0; 
 		this.panel=new MyPanel();
 		this.sys_time = 0;
+		rotate_state=0;
+		is_firsttime =1;
+		is_active=0;                      //当前是否有活动积木,0表示当前panel内务活动积木
+		is_end = 0; 
 		for(int i=0; i< 10;i++) {
 			this.queue[i] = 66;  // 66 means that the position in queue is empty.
 		}
@@ -211,12 +215,17 @@ public class TetrisManiaImpl implements ExamOp
 	@Override
 	public OpResult reset()
 	{
+		this.is_active = 0; 
 		this.panel=new MyPanel();
 		this.sys_time = 0;
-		is_firsttime = 1;
+		rotate_state=0;
+		is_firsttime =1;
+		is_active=0;                      //当前是否有活动积木,0表示当前panel内务活动积木
+		is_end = 0; 
 		for(int i=0; i< 10;i++) {
 			this.queue[i] = 66;  // 66 means that the position in queue is empty.
 		}
+		this.current_building_block_order = 66;
 		return new OpResult(ReturnCode.S001);
 	}
 
@@ -1126,113 +1135,133 @@ public class TetrisManiaImpl implements ExamOp
 	public OpResult rotate()
 	{
 		if(this.is_end==1){
+			System.out.println("ERROR: Game Over!");
 			return new OpResult(ReturnCode.E005);
 		}
 		if(this.is_active==0){
+			System.out.println("ERROR: No Active Blocks!");
 			return new OpResult(ReturnCode.E007);
 		}
 		int row_start=0;
 		int coloumn_start=0;
+		boolean flag=false;
 		for(row_start=0;row_start<12;row_start++){
 			for(coloumn_start=0;coloumn_start<8;coloumn_start++){
 				if(this.panel.table[row_start][coloumn_start]==Element.star){
+					System.out.println(row_start+" "+coloumn_start);
+					flag=true;
 					break;
 				}
+			}
+			if(flag==true){
+				break;
 			}
 		}
 		
 		switch(current_building_block_order){
-		case 0:break;
-		case 1:switch(this.rotate_state){
-				case 0:if(coloumn_start+1<8){
+		case 0:System.out.println("Rotate Once!");	break;
+		case 1:if(this.rotate_state==0){
+					if(coloumn_start+1<8){
 							if(this.panel.table[row_start][coloumn_start+1]==Element.point){
-								update_rotate_state();
+								update_rotate_state();System.out.println("Rotate Once!");	
 								this.panel.table[row_start-1][coloumn_start]=Element.point;
 								this.panel.table[row_start][coloumn_start+1]=Element.star;
 							}
-					   }break;
-				case 1:if(row_start+1<12){
+					}
+				}else if(this.rotate_state==1){
+					if(row_start+1<12){
 							if(this.panel.table[row_start+1][coloumn_start+1]==Element.point){
-								update_rotate_state();
+								update_rotate_state();System.out.println("Rotate Once!");	
 								this.panel.table[row_start][coloumn_start]=Element.point;
 								this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 							}
-					   }break;
-				case 2:if(coloumn_start-1>=0){
+					 }
+				}else if(this.rotate_state==2){
+					if(coloumn_start-1>=0){
 							if(this.panel.table[row_start+1][coloumn_start-1]==Element.point){
-								update_rotate_state();
+								update_rotate_state();System.out.println("Rotate Once!");	
 								this.panel.table[row_start][coloumn_start]=Element.point;
 								this.panel.table[row_start+1][coloumn_start-1]=Element.star;
 							}
-					   }break;
-				case 3:if(this.panel.table[row_start-1][coloumn_start]==Element.point){
-							update_rotate_state();
+					 }
+				}else if(this.rotate_state==3){
+					if(this.panel.table[row_start-1][coloumn_start]==Element.point){
+							update_rotate_state();System.out.println("Rotate Once!");	
 							this.panel.table[row_start][coloumn_start+1]=Element.point;
 							this.panel.table[row_start-1][coloumn_start]=Element.star;
-					   }break;
-			   }break;
-		case 2:switch(this.rotate_state){
-					case 0:if((coloumn_start+1<8)&&(coloumn_start-1>=0)){
+					 }
+				}
+			   break;
+		case 2:if(this.rotate_state==0){
+					if((coloumn_start+1<8)&&(coloumn_start-1>=0)){
 								if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
-									update_rotate_state();
+									update_rotate_state();System.out.println("Rotate Once!");	
 									this.panel.table[row_start][coloumn_start]=Element.point;
 									this.panel.table[row_start+2][coloumn_start]=Element.point;
 									this.panel.table[row_start+1][coloumn_start-1]=Element.star;
 									this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 								}
-							}break;
-					case 1:if(row_start+1<12){
+					}
+				}else if(this.rotate_state==1){
+					if(row_start+1<12){
 								if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
-									update_rotate_state();
+									update_rotate_state();System.out.println("Rotate Once!");	
 									this.panel.table[row_start][coloumn_start]=Element.point;
 									this.panel.table[row_start][coloumn_start+2]=Element.point;
 									this.panel.table[row_start-1][coloumn_start+1]=Element.star;
 									this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 								}
-							}break;
-					case 2:if((coloumn_start+1<8)&&(coloumn_start-1>=0)){
+					}
+				}else if(this.rotate_state==2){
+					if((coloumn_start+1<8)&&(coloumn_start-1>=0)){
 						if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
-							update_rotate_state();
+							update_rotate_state();System.out.println("Rotate Once!");	
 							this.panel.table[row_start][coloumn_start]=Element.point;
 							this.panel.table[row_start+2][coloumn_start]=Element.point;
 							this.panel.table[row_start+1][coloumn_start-1]=Element.star;
 							this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 						}
-					}break;
-					case 3:if(row_start+1<12){
+					}
+				}else if(this.rotate_state==3){
+					if(row_start+1<12){
 						if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
-							update_rotate_state();
+							update_rotate_state();System.out.println("Rotate Once!");	
 							this.panel.table[row_start][coloumn_start]=Element.point;
 							this.panel.table[row_start][coloumn_start+2]=Element.point;
 							this.panel.table[row_start-1][coloumn_start+1]=Element.star;
 							this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 						}
-					}break;
-				}break;
-		case 3:switch(this.rotate_state){
-			case 0:if(this.panel.table[row_start+1][coloumn_start+1]==Element.point){
-					update_rotate_state();
+					}
+				}
+				break;
+		case 3:if(this.rotate_state==0){
+			if(this.panel.table[row_start+1][coloumn_start+1]==Element.point){
+					update_rotate_state();System.out.println("Rotate Once!");	
 					this.panel.table[row_start+1][coloumn_start]=Element.point;
 					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
-				}break;
-			case 1:if(this.panel.table[row_start+1][coloumn_start]==Element.point){
-				update_rotate_state();
-				this.panel.table[row_start][coloumn_start]=Element.point;
-				this.panel.table[row_start+1][coloumn_start]=Element.star;
-			}break;
-			case 2:if(this.panel.table[row_start][coloumn_start-1]==Element.point){
-				update_rotate_state();
-				this.panel.table[row_start][coloumn_start]=Element.point;
-				this.panel.table[row_start][coloumn_start-1]=Element.star;
-			}break;
-			case 3:if(this.panel.table[row_start][coloumn_start+1]==Element.point){
-				update_rotate_state();
-				this.panel.table[row_start+1][coloumn_start+1]=Element.point;
-				this.panel.table[row_start][coloumn_start+1]=Element.star;
-			}break;
-		}break;
-		case 4:switch(this.rotate_state){
-			case 0:if(coloumn_start+1<8){
+				}
+			}else if(this.rotate_state==1){
+				if(this.panel.table[row_start+1][coloumn_start]==Element.point){
+					update_rotate_state();System.out.println("Rotate Once!");	
+					this.panel.table[row_start][coloumn_start]=Element.point;
+					this.panel.table[row_start+1][coloumn_start]=Element.star;
+				}
+			}else if(this.rotate_state==2){
+				if(this.panel.table[row_start][coloumn_start-1]==Element.point){
+					update_rotate_state();System.out.println("Rotate Once!");	
+					this.panel.table[row_start][coloumn_start]=Element.point;
+					this.panel.table[row_start][coloumn_start-1]=Element.star;
+				}
+			}else if(this.rotate_state==3){
+				if(this.panel.table[row_start][coloumn_start+1]==Element.point){
+					update_rotate_state();System.out.println("Rotate Once!");	
+					this.panel.table[row_start+1][coloumn_start+1]=Element.point;
+					this.panel.table[row_start][coloumn_start+1]=Element.star;
+				}
+			}
+			break;
+		case 4:if(this.rotate_state==0){
+				if(coloumn_start+1<8){
 					if((this.panel.table[row_start+1][coloumn_start]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
 						update_rotate_state();
 						this.panel.table[row_start][coloumn_start]=Element.point;
@@ -1242,240 +1271,261 @@ public class TetrisManiaImpl implements ExamOp
 						this.panel.table[row_start+1][coloumn_start+2]=Element.star;
 						this.panel.table[row_start+1][coloumn_start]=Element.star;
 					}
-				}break;
-			case 1:if(row_start+1<12){
-				if((this.panel.table[row_start][coloumn_start-2]==Element.point)&&(this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start-2]=Element.point;
-					this.panel.table[row_start][coloumn_start-1]=Element.star;
-					this.panel.table[row_start+2][coloumn_start-1]=Element.star;
-					this.panel.table[row_start+2][coloumn_start]=Element.star;
+				 }
+				}else if(this.rotate_state==1){
+					if(row_start+1<12){
+						if((this.panel.table[row_start][coloumn_start-2]==Element.point)&&(this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
+							update_rotate_state();
+							this.panel.table[row_start][coloumn_start]=Element.point;
+							this.panel.table[row_start+1][coloumn_start]=Element.point;
+							this.panel.table[row_start+1][coloumn_start-2]=Element.point;
+							this.panel.table[row_start][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+2][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+2][coloumn_start]=Element.star;
+						}
+					}
+				}else if(this.rotate_state==2){
+					if(coloumn_start-1>=0){
+						if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+							update_rotate_state();
+							this.panel.table[row_start][coloumn_start]=Element.point;
+							this.panel.table[row_start+2][coloumn_start]=Element.point;
+							this.panel.table[row_start+2][coloumn_start+1]=Element.point;
+							this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+2][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+						}
+					}
 				}
-			}break;
-			case 2:if(coloumn_start-1>=0){
-				if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start+2][coloumn_start]=Element.point;
-					this.panel.table[row_start+2][coloumn_start+1]=Element.point;
-					this.panel.table[row_start+1][coloumn_start-1]=Element.star;
-					this.panel.table[row_start+2][coloumn_start-1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+				else if(this.rotate_state==3){
+					if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start]=Element.point;
+						this.panel.table[row_start][coloumn_start+2]=Element.point;
+						this.panel.table[row_start-1][coloumn_start]=Element.star;
+						this.panel.table[row_start-1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+					}
 				}
-			}break;
-			case 3:
-				if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start]=Element.point;
-					this.panel.table[row_start][coloumn_start+2]=Element.point;
-					this.panel.table[row_start-1][coloumn_start]=Element.star;
-					this.panel.table[row_start-1][coloumn_start+1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
-				}break;
-		}break;
-		case 5:switch(this.rotate_state){
-			case 0:if(coloumn_start-1>=0){
-				if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start][coloumn_start+1]=Element.point;
-					this.panel.table[row_start+2][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start-1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
-					this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+				break;
+		case 5:if(this.rotate_state==0){
+					if(coloumn_start-1>=0){
+						if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)){
+							update_rotate_state();
+							this.panel.table[row_start][coloumn_start]=Element.point;
+							this.panel.table[row_start][coloumn_start+1]=Element.point;
+							this.panel.table[row_start+2][coloumn_start]=Element.point;
+							this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+							this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+						}
+					}
+				}else if(this.rotate_state==1){
+					if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start][coloumn_start+2]=Element.point;
+						this.panel.table[row_start+1][coloumn_start+2]=Element.point;
+						this.panel.table[row_start-1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+					}
+				}else if(this.rotate_state==2){
+					if(coloumn_start+1<8){
+						if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+							update_rotate_state();
+							this.panel.table[row_start][coloumn_start]=Element.point;
+							this.panel.table[row_start+2][coloumn_start-1]=Element.point;
+							this.panel.table[row_start+2][coloumn_start]=Element.point;
+							this.panel.table[row_start][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+						}
+					}
+				}else if(this.rotate_state==3){
+					if(row_start+1<12){
+						if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+2]==Element.point)){
+							update_rotate_state();
+							this.panel.table[row_start][coloumn_start]=Element.point;
+							this.panel.table[row_start+1][coloumn_start]=Element.point;
+							this.panel.table[row_start+1][coloumn_start+2]=Element.point;
+							this.panel.table[row_start][coloumn_start+1]=Element.star;
+							this.panel.table[row_start][coloumn_start+2]=Element.star;
+							this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+						}
+					}
 				}
-			}break;
-			case 1:
-				if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start][coloumn_start+2]=Element.point;
-					this.panel.table[row_start+1][coloumn_start+2]=Element.point;
-					this.panel.table[row_start-1][coloumn_start+1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start]=Element.star;
-					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
-				}break;
-			case 2:if(coloumn_start+1<8){
-				if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start+2][coloumn_start-1]=Element.point;
-					this.panel.table[row_start+2][coloumn_start]=Element.point;
-					this.panel.table[row_start][coloumn_start-1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start-1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+				break;
+		case 6:if(this.rotate_state==0){
+				if(coloumn_start+1<8){
+					if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start+1][coloumn_start-1]=Element.point;
+						this.panel.table[row_start+2][coloumn_start-1]=Element.point;
+						this.panel.table[row_start][coloumn_start-1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+					}
 				}
-			}break;
-			case 3:if(row_start+1<12){
-				if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+2]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start+2]=Element.point;
-					this.panel.table[row_start][coloumn_start+1]=Element.star;
-					this.panel.table[row_start][coloumn_start+2]=Element.star;
-					this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+			}else if(this.rotate_state==1){
+				if(row_start+1<12){
+					if((this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+2]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start][coloumn_start+1]=Element.point;
+						this.panel.table[row_start][coloumn_start+2]=Element.star;
+						this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+					}
 				}
-			}break;
-		}break;
-		case 6:switch(this.rotate_state){
-			case 0:if(coloumn_start+1<8){
-				if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start+1][coloumn_start-1]=Element.point;
-					this.panel.table[row_start+2][coloumn_start-1]=Element.point;
-					this.panel.table[row_start][coloumn_start-1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+			}else if(this.rotate_state==2){
+				if(coloumn_start-1>=0){
+					if((this.panel.table[row_start+1][coloumn_start-2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start-2]=Element.star;
+						this.panel.table[row_start+2][coloumn_start]=Element.star;
+					}
 				}
-			}break;
-			case 1:if(row_start+1<12){
-				if((this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+2]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start][coloumn_start+1]=Element.point;
-					this.panel.table[row_start][coloumn_start+2]=Element.star;
-					this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+			}else if(this.rotate_state==3){
+				if(coloumn_start-1>=0){
+					if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start+1][coloumn_start+1]=Element.point;
+						this.panel.table[row_start+1][coloumn_start+2]=Element.point;
+						this.panel.table[row_start-1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start]=Element.star;
+					}
 				}
-			}break;
-			case 2:if(coloumn_start-1>=0){
-				if((this.panel.table[row_start+1][coloumn_start-2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start-2]=Element.star;
-					this.panel.table[row_start+2][coloumn_start]=Element.star;
+			}
+			break;
+		case 7:if(this.rotate_state==0){
+				if(coloumn_start-1>=0){
+					if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+2][coloumn_start+1]=Element.point;
+						this.panel.table[row_start+2][coloumn_start-1]=Element.star;
+						this.panel.table[row_start+2][coloumn_start]=Element.star;
+					}
 				}
-			}break;
-			case 3:if(coloumn_start-1>=0){
-				if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start+1][coloumn_start+1]=Element.point;
-					this.panel.table[row_start+1][coloumn_start+2]=Element.point;
-					this.panel.table[row_start-1][coloumn_start+1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start]=Element.star;
-				}
-			}break;
-		}break;
-		case 7:switch(this.rotate_state){
-			case 0:if(coloumn_start-1>=0){
-				if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start+2][coloumn_start+1]=Element.point;
-					this.panel.table[row_start+2][coloumn_start-1]=Element.star;
-					this.panel.table[row_start+2][coloumn_start]=Element.star;
-				}
-			}break;
-			case 1:
+			}else if(this.rotate_state==1){
 				if((this.panel.table[row_start-2][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)){
 					update_rotate_state();
 					this.panel.table[row_start][coloumn_start]=Element.point;
 					this.panel.table[row_start-1][coloumn_start+2]=Element.point;
 					this.panel.table[row_start-2][coloumn_start]=Element.star;
 					this.panel.table[row_start-1][coloumn_start]=Element.star;
-				}break;
-			case 2:if(coloumn_start+2<8){
-				if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start+2][coloumn_start+1]=Element.point;
-					this.panel.table[row_start][coloumn_start+1]=Element.star;
-					this.panel.table[row_start][coloumn_start+2]=Element.star;
 				}
-			}break;
-			case 3:if(row_start+1<12){
-				if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start-1][coloumn_start+2]=Element.point;
-					this.panel.table[row_start][coloumn_start+2]=Element.star;
-					this.panel.table[row_start+1][coloumn_start+2]=Element.star;
+			}else if(this.rotate_state==2){
+				if(coloumn_start+2<8){
+					if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+2][coloumn_start+1]=Element.point;
+						this.panel.table[row_start][coloumn_start+1]=Element.star;
+						this.panel.table[row_start][coloumn_start+2]=Element.star;
+					}
 				}
-			}break;
-		}break;
-		case 8:switch(this.rotate_state){
-			case 0:if((coloumn_start-1>=0)&&(coloumn_start+2<8)){
-				if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+3][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start+2][coloumn_start]=Element.point;
-					this.panel.table[row_start+3][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start-1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start+2]=Element.star;
+			}else if(this.rotate_state==3){
+				if(row_start+1<12){
+					if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start-1][coloumn_start+2]=Element.point;
+						this.panel.table[row_start][coloumn_start+2]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+2]=Element.star;
+					}
 				}
-			}break;
-			case 1:if(row_start+2<12){
-				if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+3]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+3]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start][coloumn_start+1]=Element.point;
-					this.panel.table[row_start][coloumn_start+3]=Element.point;
-					this.panel.table[row_start-1][coloumn_start+1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
-					this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+			}
+			break;
+		case 8:if(this.rotate_state==0){
+				if((coloumn_start-1>=0)&&(coloumn_start+2<8)){
+					if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+3][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+2][coloumn_start]=Element.point;
+						this.panel.table[row_start+3][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+2]=Element.star;
+					}
 				}
-			}break;
-			case 2:if((coloumn_start-2>=0)&&(coloumn_start+1<8)){
-				if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+3][coloumn_start-2]==Element.point)&&(this.panel.table[row_start+3][coloumn_start-1]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start]=Element.point;
-					this.panel.table[row_start+3][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start-1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start-2]=Element.star;
+			}else if(this.rotate_state==1){
+				if(row_start+2<12){
+					if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+3]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+3]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start][coloumn_start+1]=Element.point;
+						this.panel.table[row_start][coloumn_start+3]=Element.point;
+						this.panel.table[row_start-1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+					}
 				}
-			}break;
-			case 3:if(row_start+1<12){
-				if((this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+3]==Element.point)&&(this.panel.table[row_start-2][coloumn_start]==Element.point)&&(this.panel.table[row_start-2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start][coloumn_start+2]=Element.point;
-					this.panel.table[row_start][coloumn_start+3]=Element.point;
-					this.panel.table[row_start-1][coloumn_start+1]=Element.star;
-					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
-					this.panel.table[row_start-2][coloumn_start+1]=Element.star;
+			}else if(this.rotate_state==2){
+				if((coloumn_start-2>=0)&&(coloumn_start+1<8)){
+					if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+3][coloumn_start-2]==Element.point)&&(this.panel.table[row_start+3][coloumn_start-1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start]=Element.point;
+						this.panel.table[row_start+3][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start-2]=Element.star;
+					}
 				}
-			}break;
-		}break;
-		case 9:switch(this.rotate_state){
-			case 0:if(coloumn_start+1<8){
-				if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start+2][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+			}else if(this.rotate_state==3){
+				if(row_start+1<12){
+					if((this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+3]==Element.point)&&(this.panel.table[row_start-2][coloumn_start]==Element.point)&&(this.panel.table[row_start-2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start][coloumn_start+2]=Element.point;
+						this.panel.table[row_start][coloumn_start+3]=Element.point;
+						this.panel.table[row_start-1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start-2][coloumn_start+1]=Element.star;
+					}
 				}
-			}break;
-			case 1:if(row_start+1<12){
-				if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start-1]=Element.point;
-					this.panel.table[row_start][coloumn_start+2]=Element.star;
+			}
+			break;
+		case 9:if(this.rotate_state==0){
+				if(coloumn_start+1<8){
+					if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start+2][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+					}
 				}
-			}break;
-			case 2:if(coloumn_start-1>=0){
-				if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)){
-					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+			}else if(this.rotate_state==1){
+				if(row_start+1<12){
+					if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start-1]=Element.point;
+						this.panel.table[row_start][coloumn_start+2]=Element.star;
+					}
 				}
-			}break;
-			case 3:
+			}else if(this.rotate_state==2){
+				if(coloumn_start-1>=0){
+					if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+					}
+				}
+			}else if(this.rotate_state==3){
 				if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
 					update_rotate_state();
 					this.panel.table[row_start][coloumn_start+2]=Element.point;
 					this.panel.table[row_start-1][coloumn_start+1]=Element.star;
-				}break;
-		}break;
-		case 10:break;
+				}
+			}
+			break;
+		case 10:System.out.println("Rotate Once!");	break;
 	}
 
 	    
-			
+		System.out.println("Rotate Once!");	
 		return new OpResult(ReturnCode.S001);
 	}
 
@@ -1554,3 +1604,4 @@ public class TetrisManiaImpl implements ExamOp
 	}
 
 }
+
