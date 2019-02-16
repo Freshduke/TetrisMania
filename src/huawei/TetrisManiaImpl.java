@@ -1163,7 +1163,7 @@ public class TetrisManiaImpl implements ExamOp
 		case 1:if(this.rotate_state==0){
 					if(coloumn_start+1<8){
 							if(this.panel.table[row_start][coloumn_start+1]==Element.point){
-								update_rotate_state();System.out.println("Rotate Once!");	
+								update_rotate_state();	
 								this.panel.table[row_start+1][coloumn_start]=Element.point;
 								this.panel.table[row_start][coloumn_start+1]=Element.star;
 							}
@@ -1171,7 +1171,7 @@ public class TetrisManiaImpl implements ExamOp
 				}else if(this.rotate_state==1){
 					if(row_start+1<12){
 							if(this.panel.table[row_start+1][coloumn_start+1]==Element.point){
-								update_rotate_state();System.out.println("Rotate Once!");	
+								update_rotate_state();	
 								this.panel.table[row_start][coloumn_start]=Element.point;
 								this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 							}
@@ -1179,14 +1179,14 @@ public class TetrisManiaImpl implements ExamOp
 				}else if(this.rotate_state==2){
 					if(coloumn_start-1>=0){
 							if(this.panel.table[row_start+1][coloumn_start-1]==Element.point){
-								update_rotate_state();System.out.println("Rotate Once!");	
+								update_rotate_state();	
 								this.panel.table[row_start][coloumn_start]=Element.point;
 								this.panel.table[row_start+1][coloumn_start-1]=Element.star;
 							}
 					 }
 				}else if(this.rotate_state==3){
 					if(this.panel.table[row_start-1][coloumn_start]==Element.point){
-							update_rotate_state();System.out.println("Rotate Once!");	
+							update_rotate_state();	
 							this.panel.table[row_start][coloumn_start+1]=Element.point;
 							this.panel.table[row_start-1][coloumn_start]=Element.star;
 					 }
@@ -1195,7 +1195,7 @@ public class TetrisManiaImpl implements ExamOp
 		case 2:if(this.rotate_state==0){
 					if((coloumn_start+1<8)&&(coloumn_start-1>=0)){
 								if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
-									update_rotate_state();System.out.println("Rotate Once!");	
+									update_rotate_state();	
 									this.panel.table[row_start][coloumn_start]=Element.point;
 									this.panel.table[row_start+2][coloumn_start]=Element.point;
 									this.panel.table[row_start+1][coloumn_start-1]=Element.star;
@@ -1205,7 +1205,7 @@ public class TetrisManiaImpl implements ExamOp
 				}else if(this.rotate_state==1){
 					if(row_start+1<12){
 								if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
-									update_rotate_state();System.out.println("Rotate Once!");	
+									update_rotate_state();	
 									this.panel.table[row_start][coloumn_start]=Element.point;
 									this.panel.table[row_start][coloumn_start+2]=Element.point;
 									this.panel.table[row_start-1][coloumn_start+1]=Element.star;
@@ -1215,7 +1215,7 @@ public class TetrisManiaImpl implements ExamOp
 				}else if(this.rotate_state==2){
 					if((coloumn_start+1<8)&&(coloumn_start-1>=0)){
 						if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
-							update_rotate_state();System.out.println("Rotate Once!");	
+							update_rotate_state();
 							this.panel.table[row_start][coloumn_start]=Element.point;
 							this.panel.table[row_start+2][coloumn_start]=Element.point;
 							this.panel.table[row_start+1][coloumn_start-1]=Element.star;
@@ -1225,7 +1225,7 @@ public class TetrisManiaImpl implements ExamOp
 				}else if(this.rotate_state==3){
 					if(row_start+1<12){
 						if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
-							update_rotate_state();System.out.println("Rotate Once!");	
+							update_rotate_state();
 							this.panel.table[row_start][coloumn_start]=Element.point;
 							this.panel.table[row_start][coloumn_start+2]=Element.point;
 							this.panel.table[row_start-1][coloumn_start+1]=Element.star;
@@ -1236,25 +1236,25 @@ public class TetrisManiaImpl implements ExamOp
 				break;
 		case 3:if(this.rotate_state==0){
 			if(this.panel.table[row_start+1][coloumn_start+1]==Element.point){
-					update_rotate_state();System.out.println("Rotate Once!");	
+					update_rotate_state();
 					this.panel.table[row_start+1][coloumn_start]=Element.point;
 					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 				}
 			}else if(this.rotate_state==1){
 				if(this.panel.table[row_start+1][coloumn_start]==Element.point){
-					update_rotate_state();System.out.println("Rotate Once!");	
+					update_rotate_state();	
 					this.panel.table[row_start][coloumn_start]=Element.point;
 					this.panel.table[row_start+1][coloumn_start]=Element.star;
 				}
 			}else if(this.rotate_state==2){
 				if(this.panel.table[row_start][coloumn_start-1]==Element.point){
-					update_rotate_state();System.out.println("Rotate Once!");	
+					update_rotate_state();	
 					this.panel.table[row_start][coloumn_start]=Element.point;
 					this.panel.table[row_start][coloumn_start-1]=Element.star;
 				}
 			}else if(this.rotate_state==3){
 				if(this.panel.table[row_start][coloumn_start+1]==Element.point){
-					update_rotate_state();System.out.println("Rotate Once!");	
+					update_rotate_state();	
 					this.panel.table[row_start+1][coloumn_start+1]=Element.point;
 					this.panel.table[row_start][coloumn_start+1]=Element.star;
 				}
@@ -1410,12 +1410,12 @@ public class TetrisManiaImpl implements ExamOp
 					}
 				}
 			}else if(this.rotate_state==1){
-				if((this.panel.table[row_start-2][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)){
+				if((this.panel.table[row_start-1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
 					update_rotate_state();
-					this.panel.table[row_start][coloumn_start]=Element.point;
-					this.panel.table[row_start-1][coloumn_start+2]=Element.point;
-					this.panel.table[row_start-2][coloumn_start]=Element.star;
-					this.panel.table[row_start-1][coloumn_start]=Element.star;
+					this.panel.table[row_start+1][coloumn_start-1]=Element.point;
+					this.panel.table[row_start][coloumn_start+1]=Element.point;
+					this.panel.table[row_start][coloumn_start-1]=Element.star;
+					this.panel.table[row_start-1][coloumn_start-1]=Element.star;
 				}
 			}else if(this.rotate_state==2){
 				if(coloumn_start+2<8){
@@ -1429,12 +1429,12 @@ public class TetrisManiaImpl implements ExamOp
 				}
 			}else if(this.rotate_state==3){
 				if(row_start+1<12){
-					if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
+					if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)){
 						update_rotate_state();
-						this.panel.table[row_start][coloumn_start]=Element.point;
-						this.panel.table[row_start-1][coloumn_start+2]=Element.point;
-						this.panel.table[row_start][coloumn_start+2]=Element.star;
-						this.panel.table[row_start+1][coloumn_start+2]=Element.star;
+						this.panel.table[row_start+1][coloumn_start-1]=Element.point;
+						this.panel.table[row_start][coloumn_start+1]=Element.point;
+						this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 					}
 				}
 			}
@@ -1458,9 +1458,9 @@ public class TetrisManiaImpl implements ExamOp
 						this.panel.table[row_start][coloumn_start]=Element.point;
 						this.panel.table[row_start][coloumn_start+1]=Element.point;
 						this.panel.table[row_start][coloumn_start+3]=Element.point;
-						this.panel.table[row_start-1][coloumn_start+1]=Element.star;
-						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
-						this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+						this.panel.table[row_start-1][coloumn_start+2]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+2]=Element.star;
+						this.panel.table[row_start+2][coloumn_start+2]=Element.star;
 					}
 				}
 			}else if(this.rotate_state==2){
@@ -1470,9 +1470,9 @@ public class TetrisManiaImpl implements ExamOp
 						this.panel.table[row_start][coloumn_start]=Element.point;
 						this.panel.table[row_start+1][coloumn_start]=Element.point;
 						this.panel.table[row_start+3][coloumn_start]=Element.point;
-						this.panel.table[row_start+1][coloumn_start-1]=Element.star;
-						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
-						this.panel.table[row_start+1][coloumn_start-2]=Element.star;
+						this.panel.table[row_start+2][coloumn_start-1]=Element.star;
+						this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+2][coloumn_start-2]=Element.star;
 					}
 				}
 			}else if(this.rotate_state==3){
@@ -1501,8 +1501,8 @@ public class TetrisManiaImpl implements ExamOp
 				if(row_start+1<12){
 					if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
 						update_rotate_state();
-						this.panel.table[row_start][coloumn_start-1]=Element.point;
-						this.panel.table[row_start][coloumn_start+2]=Element.star;
+						this.panel.table[row_start+1][coloumn_start-1]=Element.point;
+						this.panel.table[row_start+2][coloumn_start]=Element.star;
 					}
 				}
 			}else if(this.rotate_state==2){
