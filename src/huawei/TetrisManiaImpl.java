@@ -14,12 +14,14 @@ import huawei.exam.*;
 public class TetrisManiaImpl implements ExamOp
 {
 
-	private int sys_time;
+	private int sys_time = 0;
+	private int rotate_state=0;
 	private int[] queue=new int[10];
 	private int current_building_block_order;
-	private MyPanel panel;
+	public MyPanel panel;
+	private int is_firsttime =1;
 	private int is_active;                      //当前是否有活动积木,0表示当前panel内务活动积木
-	private int is_end;                         //当前游戏结束条件，
+	private int is_end = 0;                         //当前游戏结束条件，
 	/*
 	 * ReturnCode(返回码枚举) .E001：非法命令 .E002：非法积木编号 .E003：非法移动距离 .E004：非法时间
 	 * .E005：游戏结束 .E006：积木队列空间不足 .E007：游戏面板中不存在活动积木 .E008：操作时间不得小于系统时间
@@ -46,6 +48,10 @@ public class TetrisManiaImpl implements ExamOp
 		this.is_active = 0; 
 		this.panel=new MyPanel();
 		this.sys_time = 0;
+		rotate_state=0;
+		is_firsttime =1;
+		is_active=0;                      //当前是否有活动积木,0表示当前panel内务活动积木
+		is_end = 0; 
 		for(int i=0; i< 10;i++) {
 			this.queue[i] = 66;  // 66 means that the position in queue is empty.
 		}
@@ -53,6 +59,7 @@ public class TetrisManiaImpl implements ExamOp
 	}
 
 	public void Update () {
+		this.rotate_state=0;
 		if (is_active == 1) {}
 		else {
 			if (queue[0]!= 66) {
@@ -69,10 +76,9 @@ public class TetrisManiaImpl implements ExamOp
 						}
 						break;
 					case 1:
-						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][3] == Element.point){
+						if(this.panel.table[0][3] == Element.point  && this.panel.table[1][3] == Element.point){
 							is_active = 1;
 							this.panel.table[0][3] = Element.star;
-							this.panel.table[0][4] = Element.star;
 							this.panel.table[1][3] = Element.star;
 						}
 						else
@@ -81,14 +87,10 @@ public class TetrisManiaImpl implements ExamOp
 						}
 						break;
 					case 2:
-						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][2] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point && this.panel.table[2][2] == Element.point && this.panel.table[2][3] == Element.point )
+						if(this.panel.table[0][3] == Element.point   && this.panel.table[1][3] == Element.point  && this.panel.table[2][3] == Element.point )
 						{
 							this.panel.table[0][3] = Element.star;
-							this.panel.table[0][4] = Element.star;
-							this.panel.table[1][2] = Element.star;
 							this.panel.table[1][3] = Element.star;
-							this.panel.table[1][4] = Element.star;
-							this.panel.table[2][2] = Element.star;
 							this.panel.table[2][3] = Element.star;
 							is_active = 1;
 						}
@@ -97,11 +99,10 @@ public class TetrisManiaImpl implements ExamOp
 						}
 						break;
 					case 3:
-						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point ){
+						if(this.panel.table[0][3] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[0][4] == Element.point ){
 							this.panel.table[0][3] = Element.star;
 							this.panel.table[0][4] = Element.star;
 							this.panel.table[1][3] = Element.star;
-							this.panel.table[1][4] = Element.star;
 							is_active = 1;
 						}
 						else{
@@ -109,31 +110,11 @@ public class TetrisManiaImpl implements ExamOp
 						}
 						break;
 					case 4:
-						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[0][5] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point  && this.panel.table[1][5] == Element.point && this.panel.table[2][3] == Element.point && this.panel.table[2][4] == Element.point )
+						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][4] == Element.point && this.panel.table[2][4] == Element.point )
 						{
 							this.panel.table[0][3] = Element.star;
 							this.panel.table[0][4] = Element.star;
-							this.panel.table[0][5] = Element.star;
-							this.panel.table[1][3] = Element.star;
 							this.panel.table[1][4] = Element.star;
-							this.panel.table[1][5] = Element.star;
-							this.panel.table[0][3] = Element.star;
-							this.panel.table[0][4] = Element.star;
-							is_active = 1;
-						}
-						else{
-							is_end = 1;
-						}
-						break;
-					case 5:
-						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][2] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point  && this.panel.table[2][2] == Element.point && this.panel.table[2][3] == Element.point && this.panel.table[2][4] == Element.point ) {
-							this.panel.table[0][3] = Element.star;
-							this.panel.table[0][4] = Element.star;
-							this.panel.table[1][2] = Element.star;
-							this.panel.table[1][3] = Element.star;
-							this.panel.table[1][4] = Element.star;
-							this.panel.table[2][2] = Element.star;
-							this.panel.table[2][3] = Element.star;
 							this.panel.table[2][4] = Element.star;
 							is_active = 1;
 						}
@@ -141,14 +122,23 @@ public class TetrisManiaImpl implements ExamOp
 							is_end = 1;
 						}
 						break;
-					case 6:
-						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[0][5] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point  && this.panel.table[1][5] == Element.point && this.panel.table[2][3] == Element.point ) {
+					case 5:
+						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[2][3] == Element.point ) {
 							this.panel.table[0][3] = Element.star;
 							this.panel.table[0][4] = Element.star;
-							this.panel.table[0][5] = Element.star;
+							this.panel.table[1][3] = Element.star;
+							this.panel.table[2][3] = Element.star;
+							is_active = 1;
+						}
+						else{
+							is_end = 1;
+						}
+						break;
+					case 6:
+						if(this.panel.table[0][4] == Element.point && this.panel.table[1][4] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[2][3] == Element.point  ) {
+							this.panel.table[0][4] = Element.star;
 							this.panel.table[1][3] = Element.star;
 							this.panel.table[1][4] = Element.star;
-							this.panel.table[1][5] = Element.star;
 							this.panel.table[2][3] = Element.star;
 							is_active = 1;
 						}
@@ -157,13 +147,10 @@ public class TetrisManiaImpl implements ExamOp
 						}
 						break;
 					case 7:
-						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point && this.panel.table[2][3] == Element.point  && this.panel.table[2][3] == Element.point && this.panel.table[2][4] == Element.point ) {
+						if(this.panel.table[0][3] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point && this.panel.table[1][4] == Element.point && this.panel.table[2][4] == Element.point ) {
 							this.panel.table[0][3] = Element.star;
-							this.panel.table[0][4] = Element.star;
 							this.panel.table[1][3] = Element.star;
 							this.panel.table[1][4] = Element.star;
-							this.panel.table[2][2] = Element.star;
-							this.panel.table[2][3] = Element.star;
 							this.panel.table[2][4] = Element.star;
 							is_active = 1;
 						}
@@ -172,17 +159,10 @@ public class TetrisManiaImpl implements ExamOp
 						}
 						break;
 					case 8:
-						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[0][5] == Element.point && this.panel.table[1][2] == Element.point && this.panel.table[1][3] == Element.point  && this.panel.table[1][4] == Element.point && this.panel.table[1][5] == Element.point && this.panel.table[2][2] == Element.point && this.panel.table[2][3] == Element.point && this.panel.table[3][2] == Element.point && this.panel.table[3][3] == Element.point) {
+						if(this.panel.table[0][3] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[2][3] == Element.point && this.panel.table[3][3] == Element.point) {
 							this.panel.table[0][3] = Element.star;
-							this.panel.table[0][4] = Element.star;
-							this.panel.table[0][5] = Element.star;
-							this.panel.table[1][2] = Element.star;
 							this.panel.table[1][3] = Element.star;
-							this.panel.table[1][4] = Element.star;
-							this.panel.table[1][5] = Element.star;
-							this.panel.table[2][2] = Element.star;
 							this.panel.table[2][3] = Element.star;
-							this.panel.table[3][2] = Element.star;
 							this.panel.table[3][3] = Element.star;
 							is_active = 1;
 						}
@@ -192,14 +172,10 @@ public class TetrisManiaImpl implements ExamOp
 						break;
 
 					case 9:
-						if(this.panel.table[0][3] == Element.point && this.panel.table[0][4] == Element.point && this.panel.table[0][5] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point  && this.panel.table[1][5] == Element.point && this.panel.table[2][3] == Element.point && this.panel.table[2][4] == Element.point  ) {
-							this.panel.table[0][3] = Element.star;
+						if(this.panel.table[0][4] == Element.point && this.panel.table[1][3] == Element.point && this.panel.table[1][4] == Element.point && this.panel.table[2][4] == Element.point ) {
 							this.panel.table[0][4] = Element.star;
-							this.panel.table[0][5] = Element.star;
 							this.panel.table[1][3] = Element.star;
 							this.panel.table[1][4] = Element.star;
-							this.panel.table[1][5] = Element.star;
-							this.panel.table[2][3] = Element.star;
 							this.panel.table[2][4] = Element.star;
 							is_active = 1;
 						}
@@ -239,11 +215,17 @@ public class TetrisManiaImpl implements ExamOp
 	@Override
 	public OpResult reset()
 	{
+		this.is_active = 0; 
 		this.panel=new MyPanel();
 		this.sys_time = 0;
+		rotate_state=0;
+		is_firsttime =1;
+		is_active=0;                      //当前是否有活动积木,0表示当前panel内务活动积木
+		is_end = 0; 
 		for(int i=0; i< 10;i++) {
 			this.queue[i] = 66;  // 66 means that the position in queue is empty.
 		}
+		this.current_building_block_order = 66;
 		return new OpResult(ReturnCode.S001);
 	}
 
@@ -302,7 +284,6 @@ public class TetrisManiaImpl implements ExamOp
 
 		int row = 0;      // 当前活动元素的左上角元素行列索引(row,column)
 		int column = 0;
-		int rotate_state;  //旋转次数 用于帮助判断积木在图中位置
 		int is_break_loop =0;
 
 
@@ -328,7 +309,6 @@ public class TetrisManiaImpl implements ExamOp
 			}
 		}
 		//判断积木旋转次数
-		rotate_state = judge_rotate_state(row,column);
 
 		//根据积木标号和旋转次数，将积木位置在面板中标出
 		if(current_building_block_order == 0)     //0号积木
@@ -538,6 +518,10 @@ public class TetrisManiaImpl implements ExamOp
 		outer:
 		for(int current_dis=0; current_dis < distance; current_dis++)  //动态判断左移是否结束
 		{
+			for(int i=0;i<12;i++)  //判断积木是否到达面板最左端
+			   if(this.panel.table[i][0] == Element.star)
+				   break outer;
+			
 			for(int i=0;i<12;i++)   //判断活动积木左侧是否紧邻固定积木，若是则移动结束，否则继续
 				for(int j=0;j<8;j++)
 					if(this.panel.table[i][j] == Element.star && this.panel.table[i][j-1] == Element.X) //活动积木左侧有面板，移动结束
@@ -556,186 +540,6 @@ public class TetrisManiaImpl implements ExamOp
 		return new OpResult(ReturnCode.S001);
 	}
 
-
-	public int judge_rotate_state(int row, int column){
-
-		int[] is_break_loop = new int[11];  //is_break_loop 用于判定是否跳出双层for循环
-		for (int i =0; i< 10 ; i++)
-		{
-			is_break_loop[i] = 0;
-		}
-		switch(current_building_block_order) {
-			case 0: return 0;
-			case 1:   // 检测活动积木左上角的位置
-				if(this.panel.table[row+1][column] == Element.star)
-				{
-					if(this.panel.table[row][column+1] == Element.star)
-					{
-						if(this.panel.table[row+1][column+1] == Element.star)
-						{
-							return 2;//旋转两次
-						}
-						else
-						{								//初始状态
-							return 0;
-						}
-					}
-					else    					//旋转3次状态
-					{
-						return 3;
-					}
-				}
-				else  							// 旋转一次状态
-				{
-					return 1;
-				}
-
-			case 2:
-
-				if(this.panel.table[row][column+1] == Element.star)
-				{ 								//初始状态 旋转2
-					return 0;
-				}
-				else {                                    //旋转1/3
-					return 1;
-				}
-
-
-			case 3: return 0;
-
-			case 4:
-
-				if(this.panel.table[row+2][column+2] == Element.star)
-				{
-					if(this.panel.table[row+2][column] == Element.star)
-					{
-						return 3; //rotate 3
-					}
-					else
-					{
-						return 1;  // rotate 1
-					}
-				}
-				else
-				{
-					if(this.panel.table[row+1][column-1] == Element.star)
-					{
-						return 2;   // rotate 2
-					}
-					else
-					{
-						return 0;  // rotate 0
-					}
-				}
-
-			case 5:   //########################################################################！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-
-				if( this.panel.table[row+1][column-1] == Element.star)
-				{
-					return 0;   // rotate 0
-				}
-				else
-				{
-					if(this.panel.table[row+2][column] == Element.star && this.panel.table[row][column+2] == Element.star)
-					{
-						return 2;   // rotate 2   //########################################################################！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-					}
-					else if(this.panel.table[row][column+2] == Element.star && this.panel.table[row+2][column+2] == Element.star)
-					{
-						return 3;   // rotate 3   //########################################################################！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-					}
-					else if(this.panel.table[row+2][column] == Element.star && this.panel.table[row+2][column+2] == Element.star)
-					{
-						return 1;   // rotate 1   //########################################################################！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-					}
-				}
-
-			case 6:
-
-				if( this.panel.table[row+1][column] != Element.star)
-				{
-				 // rotate 1
-					 return 1;
-				}
-				else {
-					if (this.panel.table[row][column + 1] == Element.point) {
-						return 2;  // rotate 2
-					} else if (this.panel.table[row + 2][column + 2] == Element.star) {
-						return 3;  // rotate 3
-					} else {
-						return 0;  // rotate 0
-					}
-				}
-
-			case 7:
-
-				if( this.panel.table[row+2][column-1] != Element.star)
-				{
-					return 0;  // rotate 0
-				}
-				else
-				{
-					if(this.panel.table[row][column+1] == Element.point)
-					{
-						return 1;   // rotate 1
-					}
-					else if(this.panel.table[row+2][column+2] == Element.star)
-					{
-						return 3;  // rotate 3
-					}
-					else
-					{
-						return 2;   // rotate 2
-					}
-				}
-
-
-			case 8:
-
-				if( this.panel.table[row+1][column-1] == Element.point)
-				{
-					return 0;  // rotate 0
-				}
-				else
-				{
-					if(this.panel.table[row+3][column] == Element.star && this.panel.table[row+3][column-2] == Element.star)
-					{
-						return 2;  // rotate 2
-					}
-					else if(this.panel.table[row+3][column+3] == Element.star && this.panel.table[row+3][column+1] == Element.star)
-					{
-						return 3;  // rotate 3
-					}
-					else if(this.panel.table[row+1][column+3] == Element.star)
-					{
-						return 1;   // rotate 1
-					}
-				}
-				break;
-
-			case 9:
-
-				if(this.panel.table[row+2][column+2] == Element.star && this.panel.table[row+2][column] == Element.star)
-				{
-					return 3; //rotate 3
-				}
-				else if (this.panel.table[row + 2][column+2] == Element.star && this.panel.table[row][column+2] == Element.star) {
-					return 1;  // rotate 1
-				}
-				else if(this.panel.table[row + 2][column - 1] == Element.star)
-				{
-					return 2; // rotate 2
-				}
-				else if(this.panel.table[row + 2][column] == Element.star && this.panel.table[row][column+2] == Element.star)
-				{
-					return 0; // rotate 0
-				}
-				break;
-
-			case 10: 	return 0;
-		}
-		return 9;        // 当前没有活动积木，或者错误情况下
-	}
 	/*
 	 * (1)将活动积木向右移动指定的距离，移动距离以宫格数量计量； (2)
 	 * 在移动过程中，当活动积木中任一方块的右边界与游戏面板右边界或固定积木方块左边界接触时，
@@ -759,7 +563,6 @@ public class TetrisManiaImpl implements ExamOp
 
 		int row = 0;      // 当前活动元素的左上角元素行列索引(row,column)
 		int column = 0;
-		int rotate_state;  //旋转次数 用于帮助判断积木在图中位置
 		int is_break_loop =0;
 
 
@@ -785,7 +588,6 @@ public class TetrisManiaImpl implements ExamOp
 			}
 		}
 		//判断积木旋转次数
-		rotate_state = judge_rotate_state(row,column);
 
 		//根据积木标号和旋转次数，将积木位置在面板中标出
 		if(current_building_block_order == 0)     //0号积木
@@ -995,6 +797,10 @@ public class TetrisManiaImpl implements ExamOp
 		outer:
 		for(int current_dis=0; current_dis < distance; current_dis++)  //动态判断右移是否结束
 		{
+			for(int i=0;i<12;i++)  //判断积木是否到达面板最右端
+				   if(this.panel.table[i][7] == Element.star)
+					   break outer;
+			
 			for(int i=0;i<12;i++)   //判断活动积木右侧是否紧邻固定积木，若是则移动结束，否则继续
 				for(int j=1;j<8;j++)
 					if(this.panel.table[i][j] == Element.star && this.panel.table[i][j+1] == Element.X) //活动积木左侧有面板，移动结束
@@ -1022,15 +828,16 @@ public class TetrisManiaImpl implements ExamOp
 
 		int row = 0;      // 当前活动元素的左上角元素行列索引(row,column)
 		int column = 0;
-		int rotate_state;  //旋转次数 用于帮助判断积木在图中位置
 		int is_break_loop =0;
 
 
 		if(is_end == 1)  //判断当前是否已经游戏结束
 			return new OpResult(ReturnCode.E005);
-		if(is_active == 0)   // 判断当前是否还有可活动积木
+		if(is_active == 0 && is_firsttime == 0)   // 判断当前是否还有可活动积木
 			return new OpResult(ReturnCode.E007);
-
+		if(is_firsttime == 1)
+		   {  Update();  is_firsttime = 0;}; 
+		
 		//游戏未结束且有可活动积木时方可进行move left 操作
 		//首先取出当前状态下积木的左上角的坐标
 		for( row = 0; row< 12; row++)
@@ -1048,7 +855,6 @@ public class TetrisManiaImpl implements ExamOp
 			}
 		}
 		//判断积木旋转次数
-		rotate_state = judge_rotate_state(row,column);
 
 		//根据积木标号和旋转次数，将积木位置在面板中标出
 		if(current_building_block_order == 0)     //0号积木
@@ -1216,7 +1022,7 @@ public class TetrisManiaImpl implements ExamOp
 
 		};
 
-		if(current_building_block_order == 5)      //9号积木
+		if(current_building_block_order == 9)      //9号积木
 		{
 			if(rotate_state == 0)
 			{
@@ -1261,16 +1067,31 @@ public class TetrisManiaImpl implements ExamOp
 		{
 			for(int i=0;i<12;i++)   //判断活动积木下侧是否紧邻固定积木，若是则移动结束，否则继续
 				for(int j=0;j<8;j++)
-					if(this.panel.table[i][j] == Element.star && this.panel.table[i+1][j] == Element.X) //活动积木下侧有面板，移动结束，而且此时是在移动步数还未走完，再走则会变成固定积木
+				 {
+					if(i == 11)   //首先判断积木是否到达最底部
+						for(int k=0;k<8;k++)
+							if(this.panel.table[11][k] == Element.star)  //如果积木到达最底部，则下一步必然会使其变成固定积木，因此在这里提前判断
+								{
+									for(int ii=0;ii<12;ii++)
+										for(int jj=0;jj<8;jj++)
+											if(this.panel.table[ii][jj]==Element.star)
+												this.panel.table[ii][jj] = Element.X;
+									is_down = 1;
+									is_active = 0;
+									break outer;
+								};
+					
+					if(this.panel.table[i][j] == Element.star && (this.panel.table[i+1][j] == Element.X )) //活动积木下侧有面板，移动结束，而且此时是在移动步数还未走完，再走则会变成固定积木
 					{
 						for(int ii=0;ii<12;ii++)
 							for(int jj=0;jj<8;jj++)
 								if(this.panel.table[ii][jj]==Element.star)
 									this.panel.table[ii][jj] = Element.X;
 						is_down = 1;
-						break outer;
-					}
-
+						is_active = 0;
+						break outer;   
+					};
+				 };
 			for(int i=10;i>=0;i--)  //若可继续下移，则对面板进行更新
 				for(int j=0;j<8;j++)
 					if(this.panel.table[i][j] == Element.star)
@@ -1302,452 +1123,410 @@ public class TetrisManiaImpl implements ExamOp
 		return new OpResult(ReturnCode.S001);
 
 	}
-
+	
+	private void update_rotate_state(){
+		this.rotate_state++;
+		if(this.rotate_state==4){
+			this.rotate_state=0;
+		}
+	}
 
 	@Override
 	public OpResult rotate()
 	{
-
-	    int i = 0;
-	    int j = 0;
-		int[] is_break_loop = new int[11];  //is_break_loop 用于判定是否跳出双层for循环
-		for ( i =0; i< 10 ; i++)
-		{
-			is_break_loop[i] = 0;
+		if(this.is_end==1){
+			System.out.println("ERROR: Game Over!");
+			return new OpResult(ReturnCode.E005);
 		}
-		switch(current_building_block_order) {
-		case 0: break;
-		
-		case 1:   // 检测活动积木左上角的位置
-
-				for( i = 0; i< 12;i++)
-			     {
-					for(j = 0; j<8; j++) 
-					{
-						if (this.panel.table[i][j] == Element.star)
-						{
-							is_break_loop[1]=1;
-							break;
-						}
-					}
-					if(is_break_loop[1] == 1){
-						break;
-					}
-			     }
-				if(this.panel.table[i+1][j] == Element.star) 
-				{
-					if(this.panel.table[i][j+1] == Element.star)  
-					{
-						if(this.panel.table[i+1][j+1] == Element.star)
-						{
-							if(this.panel.table[i + 1][j + 1] == Element.point ) {
-								//旋转两次
-								this.panel.table[i + 1][j] = Element.point;
-								this.panel.table[i + 1][j + 1] = Element.star;
-							}
-						}
-						else {                                //初始状态
-							if (this.panel.table[i + 1][j + 1] == Element.point) {
-								this.panel.table[i + 1][j] = Element.point;
-								this.panel.table[i + 1][j + 1] = Element.star;
-							}
-						}
-					}
-					else    					//旋转3次状态
-					{
-						if(this.panel.table[i ][j + 1] == Element.point ) {
-							this.panel.table[i][j + 1] = Element.star;
-							this.panel.table[i + 1][j + 1] = Element.point;
-						}
-					}
+		if(this.is_active==0){
+			System.out.println("ERROR: No Active Blocks!");
+			return new OpResult(ReturnCode.E007);
+		}
+		int row_start=0;
+		int coloumn_start=0;
+		boolean flag=false;
+		for(row_start=0;row_start<12;row_start++){
+			for(coloumn_start=0;coloumn_start<8;coloumn_start++){
+				if(this.panel.table[row_start][coloumn_start]==Element.star){
+					System.out.println(row_start+" "+coloumn_start);
+					flag=true;
+					break;
 				}
-				else  							// 旋转一次状态
-				{
-					if(this.panel.table[i + 1][j] == Element.point ) {
-						this.panel.table[i + 1][j] = Element.star;
-						this.panel.table[i][j] = Element.point;
-					}
-			    }
+			}
+			if(flag==true){
 				break;
-		case 2: 
-			 for(i=0; i< 12;i++)
-		     {
-				for(j=0; j<8; j++) 
-				{
-					if (this.panel.table[i][j] == Element.star)
-					{
-						is_break_loop[2]=1;
-						break;
-					}
-				}
-				if(is_break_loop[2] == 1){
-					break;
-				}
-		     }
-			 if(this.panel.table[i][j+1] == Element.star) 
-				{ 								//初始状态 旋转2
-					if(this.panel.table[i ][j - 1] == Element.point && this.panel.table[i + 2][j - 1] == Element.point ) {
-						this.panel.table[i][j - 1] = Element.star;
-						this.panel.table[i][j + 1] = Element.point;
-						this.panel.table[i + 2][j - 1] = Element.point;
-						this.panel.table[i + 2][j - 1] = Element.star;
-					}
-				}
-			 else 
-			 {								    //旋转1/3
-				if(this.panel.table[i + 2][j] == Element.point && this.panel.table[i][j + 2] == Element.point) {
-					this.panel.table[i + 2][j] = Element.star;
-					this.panel.table[i][j] = Element.point;
-					this.panel.table[i + 2][j + 2] = Element.point;
-					this.panel.table[i][j + 2] = Element.star;
-				}
-			 }
-			 break;
+			}
+		}
 		
-		
-		case 3: break;
-		
-		case 4:
-			 for(i=0; i< 12;i++)
-		     {
-				for(j=0; j<8; j++)
-				{
-					if (this.panel.table[i][j] == Element.star)
-					{
-						is_break_loop[4] = 1;
-						break;
+		switch(current_building_block_order){
+		case 0:System.out.println("Rotate Once!");	break;
+		case 1:if(this.rotate_state==0){
+					if(coloumn_start+1<8){
+							if(this.panel.table[row_start][coloumn_start+1]==Element.point){
+								update_rotate_state();	
+								this.panel.table[row_start+1][coloumn_start]=Element.point;
+								this.panel.table[row_start][coloumn_start+1]=Element.star;
+							}
+					}
+				}else if(this.rotate_state==1){
+					if(row_start+1<12){
+							if(this.panel.table[row_start+1][coloumn_start+1]==Element.point){
+								update_rotate_state();	
+								this.panel.table[row_start][coloumn_start]=Element.point;
+								this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+							}
+					 }
+				}else if(this.rotate_state==2){
+					if(coloumn_start-1>=0){
+							if(this.panel.table[row_start+1][coloumn_start-1]==Element.point){
+								update_rotate_state();	
+								this.panel.table[row_start][coloumn_start]=Element.point;
+								this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+							}
+					 }
+				}else if(this.rotate_state==3){
+					if(this.panel.table[row_start-1][coloumn_start]==Element.point){
+							update_rotate_state();	
+							this.panel.table[row_start][coloumn_start+1]=Element.point;
+							this.panel.table[row_start-1][coloumn_start]=Element.star;
+					 }
+				}
+			   break;
+		case 2:if(this.rotate_state==0){
+					if((coloumn_start+1<8)&&(coloumn_start-1>=0)){
+								if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+									update_rotate_state();	
+									this.panel.table[row_start][coloumn_start]=Element.point;
+									this.panel.table[row_start+2][coloumn_start]=Element.point;
+									this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+									this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+								}
+					}
+				}else if(this.rotate_state==1){
+					if(row_start+1<12){
+								if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
+									update_rotate_state();	
+									this.panel.table[row_start][coloumn_start]=Element.point;
+									this.panel.table[row_start][coloumn_start+2]=Element.point;
+									this.panel.table[row_start-1][coloumn_start+1]=Element.star;
+									this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+								}
+					}
+				}else if(this.rotate_state==2){
+					if((coloumn_start+1<8)&&(coloumn_start-1>=0)){
+						if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+							update_rotate_state();
+							this.panel.table[row_start][coloumn_start]=Element.point;
+							this.panel.table[row_start+2][coloumn_start]=Element.point;
+							this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+						}
+					}
+				}else if(this.rotate_state==3){
+					if(row_start+1<12){
+						if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
+							update_rotate_state();
+							this.panel.table[row_start][coloumn_start]=Element.point;
+							this.panel.table[row_start][coloumn_start+2]=Element.point;
+							this.panel.table[row_start-1][coloumn_start+1]=Element.star;
+							this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+						}
 					}
 				}
-				if(is_break_loop[4] == 1){
-					break;
+				break;
+		case 3:if(this.rotate_state==0){
+			if(this.panel.table[row_start+1][coloumn_start+1]==Element.point){
+					update_rotate_state();
+					this.panel.table[row_start+1][coloumn_start]=Element.point;
+					this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 				}
-		     }
-
-			 if(this.panel.table[i+2][j+2] == Element.star)
-			 {
-				 if(this.panel.table[i+2][j] == Element.star)
-				 {
-					if(this.panel.table[i ][j +2] == Element.point) {
-						this.panel.table[i + 2][j + 2] = Element.point; //rotate 3
-						this.panel.table[i][j + 2] = Element.star;
-					}
-				 }
-				 else
-				 {
-				 	if(this.panel.table[i + 2][j] == Element.point) {
-						this.panel.table[i][j] = Element.point;   // rotate 1
-						this.panel.table[i + 2][j] = Element.star;
-					}
-				 }
-			 }
-			 else if(this.panel.table[i+1][j-1] == Element.star)
-			 {
-			 	if(this.panel.table[i ][j - 1] == Element.point) {
-					this.panel.table[i][j - 1] = Element.star;   // rotate 2
-					this.panel.table[i][j + 1] = Element.point;
+			}else if(this.rotate_state==1){
+				if(this.panel.table[row_start+1][coloumn_start]==Element.point){
+					update_rotate_state();	
+					this.panel.table[row_start][coloumn_start]=Element.point;
+					this.panel.table[row_start+1][coloumn_start]=Element.star;
 				}
-			 }
-			 else
-			 {
-			 	if(this.panel.table[i + 2][j + 2] == Element.point) {
-					this.panel.table[i][j + 2] = Element.point;   // rotate 0
-					this.panel.table[i + 2][j + 2] = Element.star;
+			}else if(this.rotate_state==2){
+				if(this.panel.table[row_start][coloumn_start-1]==Element.point){
+					update_rotate_state();	
+					this.panel.table[row_start][coloumn_start]=Element.point;
+					this.panel.table[row_start][coloumn_start-1]=Element.star;
 				}
-			 }
-
-			 
-		case 5: 	 
-			 for(i=0; i< 12;i++)
-		     {
-				for(j=0; j<8; j++) 
-				{
-					if (this.panel.table[i][j] == Element.star)
-					{
-						is_break_loop[5] = 1;
-						break;
-					}
-				}
-				if(is_break_loop[5] == 1){
-					break;
-				}
-		     }
-
-
-			if( this.panel.table[i+1][j-1] == Element.star)
-			{
-				if(this.panel.table[i ][j - 1] == Element.point) {
-					this.panel.table[i][j - 1] = Element.star;   // rotate 0
-					this.panel.table[i][j + 1] = Element.point;
+			}else if(this.rotate_state==3){
+				if(this.panel.table[row_start][coloumn_start+1]==Element.point){
+					update_rotate_state();	
+					this.panel.table[row_start+1][coloumn_start+1]=Element.point;
+					this.panel.table[row_start][coloumn_start+1]=Element.star;
 				}
 			}
-			else
-			{
-				if(this.panel.table[i+2][j] == Element.star && this.panel.table[i][j+2] == Element.star)
-				{
-					if(this.panel.table[i + 2][j + 2] == Element.point) {
-						this.panel.table[i][j + 2] = Element.point;   // rotate 2
-						this.panel.table[i + 2][j + 2] = Element.star;
+			break;
+		case 4:if(this.rotate_state==0){
+				if(coloumn_start+1<8){
+					if((this.panel.table[row_start+1][coloumn_start]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start][coloumn_start+1]=Element.point;
+						this.panel.table[row_start+2][coloumn_start+1]=Element.point;
+						this.panel.table[row_start][coloumn_start+2]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+2]=Element.star;
+						this.panel.table[row_start+1][coloumn_start]=Element.star;
+					}
+				 }
+				}else if(this.rotate_state==1){
+					if(row_start+1<12){
+						if((this.panel.table[row_start][coloumn_start-2]==Element.point)&&(this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
+							update_rotate_state();
+							this.panel.table[row_start][coloumn_start]=Element.point;
+							this.panel.table[row_start+1][coloumn_start]=Element.point;
+							this.panel.table[row_start+1][coloumn_start-2]=Element.point;
+							this.panel.table[row_start][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+2][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+2][coloumn_start]=Element.star;
+						}
+					}
+				}else if(this.rotate_state==2){
+					if(coloumn_start-1>=0){
+						if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+							update_rotate_state();
+							this.panel.table[row_start][coloumn_start]=Element.point;
+							this.panel.table[row_start+2][coloumn_start]=Element.point;
+							this.panel.table[row_start+2][coloumn_start+1]=Element.point;
+							this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+2][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+						}
 					}
 				}
-				else if(this.panel.table[i][j+2] == Element.star && this.panel.table[i+2][j+2] == Element.star)
-				{
-					if(this.panel.table[i ][j + 2] == Element.point) {
-						this.panel.table[i][j + 2] = Element.star;   // rotate 3
-						this.panel.table[i][j] = Element.point;
+				else if(this.rotate_state==3){
+					if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start]=Element.point;
+						this.panel.table[row_start][coloumn_start+2]=Element.point;
+						this.panel.table[row_start-1][coloumn_start]=Element.star;
+						this.panel.table[row_start-1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 					}
 				}
-				else if(this.panel.table[i+2][j] == Element.star && this.panel.table[i+2][j+2] == Element.star)
-				{
-					if(this.panel.table[i ][j + 2] == Element.point) {
-						this.panel.table[i][j + 2] = Element.star;   // rotate 2
-						this.panel.table[i + 2][j + 2] = Element.point;
+				break;
+		case 5:if(this.rotate_state==0){
+					if(coloumn_start-1>=0){
+						if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)){
+							update_rotate_state();
+							this.panel.table[row_start][coloumn_start]=Element.point;
+							this.panel.table[row_start][coloumn_start+1]=Element.point;
+							this.panel.table[row_start+2][coloumn_start]=Element.point;
+							this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+							this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+						}
+					}
+				}else if(this.rotate_state==1){
+					if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start][coloumn_start+2]=Element.point;
+						this.panel.table[row_start+1][coloumn_start+2]=Element.point;
+						this.panel.table[row_start-1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+					}
+				}else if(this.rotate_state==2){
+					if(coloumn_start+1<8){
+						if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+							update_rotate_state();
+							this.panel.table[row_start][coloumn_start]=Element.point;
+							this.panel.table[row_start+2][coloumn_start-1]=Element.point;
+							this.panel.table[row_start+2][coloumn_start]=Element.point;
+							this.panel.table[row_start][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+							this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+						}
+					}
+				}else if(this.rotate_state==3){
+					if(row_start+1<12){
+						if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+2]==Element.point)){
+							update_rotate_state();
+							this.panel.table[row_start][coloumn_start]=Element.point;
+							this.panel.table[row_start+1][coloumn_start]=Element.point;
+							this.panel.table[row_start+1][coloumn_start+2]=Element.point;
+							this.panel.table[row_start][coloumn_start+1]=Element.star;
+							this.panel.table[row_start][coloumn_start+2]=Element.star;
+							this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+						}
+					}
+				}
+				break;
+		case 6:if(this.rotate_state==0){
+				if(coloumn_start+1<8){
+					if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start+1][coloumn_start-1]=Element.point;
+						this.panel.table[row_start+2][coloumn_start-1]=Element.point;
+						this.panel.table[row_start][coloumn_start-1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+					}
+				}
+			}else if(this.rotate_state==1){
+				if(row_start+1<12){
+					if((this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+2]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start][coloumn_start+1]=Element.point;
+						this.panel.table[row_start][coloumn_start+2]=Element.star;
+						this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+					}
+				}
+			}else if(this.rotate_state==2){
+				if(coloumn_start-1>=0){
+					if((this.panel.table[row_start+1][coloumn_start-2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start-2]=Element.star;
+						this.panel.table[row_start+2][coloumn_start]=Element.star;
+					}
+				}
+			}else if(this.rotate_state==3){
+				if(coloumn_start-1>=0){
+					if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start+1][coloumn_start+1]=Element.point;
+						this.panel.table[row_start+1][coloumn_start+2]=Element.point;
+						this.panel.table[row_start-1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start]=Element.star;
 					}
 				}
 			}
-			 break;
-			 
-		case 6:
-			for(i=0; i< 12;i++)
-		     {
-				for(j=0; j<8; j++) 
-				{
-					if (this.panel.table[i][j] == Element.star)
-					{
-						is_break_loop[6] = 1;
-						break;
+			break;
+		case 7:if(this.rotate_state==0){
+				if(coloumn_start-1>=0){
+					if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+2][coloumn_start+1]=Element.point;
+						this.panel.table[row_start+2][coloumn_start-1]=Element.star;
+						this.panel.table[row_start+2][coloumn_start]=Element.star;
 					}
 				}
-				if(is_break_loop[6] == 1){
-					break;
+			}else if(this.rotate_state==1){
+				if((this.panel.table[row_start-1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+					update_rotate_state();
+					this.panel.table[row_start+1][coloumn_start-1]=Element.point;
+					this.panel.table[row_start][coloumn_start+1]=Element.point;
+					this.panel.table[row_start][coloumn_start-1]=Element.star;
+					this.panel.table[row_start-1][coloumn_start-1]=Element.star;
 				}
-		     }
-			 if( this.panel.table[i+1][j] != Element.star)
-			 {
-			 	if(this.panel.table[i +1][j] == Element.point && this.panel.table[i + 1][j ] == Element.point){
-				 this.panel.table[i][j] = Element.point;   // rotate 1
-				 this.panel.table[i][j+1] = Element.point; 
-				 this.panel.table[i+1][j] = Element.star;   // rotate 1
-				 this.panel.table[i+1][j] = Element.star;
-			 	}
-			 }
-			 else
-			 {
-				 if(this.panel.table[i][j+1] == Element.point)
-				 {
-				 	if(this.panel.table[i ][j] == Element.point && this.panel.table[i ][j + 1] == Element.point) {
-						this.panel.table[i][j + 2] = Element.point;   // rotate 2
-						this.panel.table[i + 1][j + 2] = Element.point;
-						this.panel.table[i][j] = Element.star;   // rotate 2
-						this.panel.table[i][j + 1] = Element.star;
-					}
-				 }
-				 else if(this.panel.table[i+2][j+2] == Element.star)
-				 {
-				 	if(this.panel.table[i ][j + 2] == Element.point&& this.panel.table[i + 1][j + 2] == Element.point) {
-						this.panel.table[i + 2][j + 2] = Element.point;   // rotate 3
-						this.panel.table[i + 1][j + 2] = Element.point;
-						this.panel.table[i][j + 2] = Element.star;   // rotate 3
-						this.panel.table[i + 1][j + 2] = Element.star;
-					}
-				 }
-				 else
-				 {
-				 	if(this.panel.table[i + 2][j + 1] == Element.point  && this.panel.table[i + 2][j + 2] == Element.point) {
-						this.panel.table[i + 1][j] = Element.point;   // rotate 0
-						this.panel.table[i + 2][j] = Element.point;
-						this.panel.table[i + 2][j + 1] = Element.star;   // rotate 0
-						this.panel.table[i + 2][j + 2] = Element.star;
-					}
-				 }
-			 }
-			 break;
-		
-		case 7: 	 
-			 for(i=0; i< 12;i++)
-		     {
-				for(j=0; j<8; j++) 
-				{
-					if (this.panel.table[i][j] == Element.star)
-					{
-						is_break_loop[7] = 1;
-						break;
+			}else if(this.rotate_state==2){
+				if(coloumn_start+2<8){
+					if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+2][coloumn_start+1]=Element.point;
+						this.panel.table[row_start][coloumn_start+1]=Element.star;
+						this.panel.table[row_start][coloumn_start+2]=Element.star;
 					}
 				}
-				if(is_break_loop[7] == 1){
-					break;
-				}
-		     }
-			 if( this.panel.table[i+2][j-1] != Element.star)
-			 {
-			 	if(this.panel.table[i ][j ] == Element.point && this.panel.table[i + 1][j ] == Element.point) {
-					this.panel.table[i][j] = Element.star;
-					this.panel.table[i + 1][j] = Element.star;
-					this.panel.table[i][j + 1] = Element.point;   // rotate 0
-					this.panel.table[i][j + 2] = Element.point;
-				}
-			 }
-			 else
-			 {
-				 if(this.panel.table[i][j+1] == Element.point)
-				 {
-				 	if(this.panel.table[i ][j + 1] == Element.point && this.panel.table[i ][j + 2] == Element.point) {
-						this.panel.table[i][j + 1] = Element.star;   // rotate 1
-						this.panel.table[i][j + 2] = Element.star;
-						this.panel.table[i + 1][j + 2] = Element.point;
-						this.panel.table[i + 2][j + 2] = Element.point;
-					}
-				 }
-				 else if(this.panel.table[i+2][j+2] == Element.star)
-				 {
-				 	if(this.panel.table[i ][j] == Element.point && this.panel.table[i + 1][j ] == Element.point) {
-						this.panel.table[i + 2][j] = Element.point;   // rotate 3
-						this.panel.table[i + 2][j + 1] = Element.point;
-						this.panel.table[i][j] = Element.star;
-						this.panel.table[i + 1][j] = Element.star;
-					}
-				 }
-				 else
-				 {
-				 	if(this.panel.table[i + 1][j + 2] == Element.point && this.panel.table[i + 2][j + 2] == Element.point){
-					 this.panel.table[i+2][j] = Element.point;   
-					 this.panel.table[i+2][j+1] = Element.point;
-					 this.panel.table[i+1][j+2] = Element.star;   // rotate 2
-					 this.panel.table[i+2][j+2] = Element.star;
-				     }
-				 }
-			 }
-			 break;
-			 
-			 
-		case 8: 	 
-			 for(i=0; i< 12;i++)
-		     {
-				for(j=0; j<8; j++) 
-				{
-					if (this.panel.table[i][j] == Element.star)
-					{
-						is_break_loop[8] = 1;
-						break;
+			}else if(this.rotate_state==3){
+				if(row_start+1<12){
+					if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start+1][coloumn_start-1]=Element.point;
+						this.panel.table[row_start][coloumn_start+1]=Element.point;
+						this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 					}
 				}
-				if(is_break_loop[8] == 1){
-					break;
+			}
+			break;
+		case 8:if(this.rotate_state==0){
+				if((coloumn_start-1>=0)&&(coloumn_start+2<8)){
+					if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+3][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+2][coloumn_start]=Element.point;
+						this.panel.table[row_start+3][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+2]=Element.star;
+					}
 				}
-		     }
-			 
-			 if( this.panel.table[i+1][j-1] == Element.point)
-			 {
-			 	if(this.panel.table[i ][j ] == Element.point && this.panel.table[i + 2][j + 2] == Element.point && this.panel.table[i + 2][j + 3] == Element.point && this.panel.table[i + 3][j +2 ] == Element.point && this.panel.table[i + 3][j + 3] == Element.point ) {
-					this.panel.table[i][j] = Element.star;
-					this.panel.table[i + 2][j + 2] = Element.star;
-					this.panel.table[i + 2][j + 3] = Element.star;
-					this.panel.table[i + 3][j + 2] = Element.star;
-					this.panel.table[i + 3][j + 3] = Element.star;
-					this.panel.table[i + 2][j] = Element.point;   // rotate 0
-					this.panel.table[i + 3][j] = Element.point;
-					this.panel.table[i][j + 3] = Element.point;
-					this.panel.table[i + 3][j + 1] = Element.point;
-					this.panel.table[i + 2][j + 1] = Element.point;
+			}else if(this.rotate_state==1){
+				if(row_start+2<12){
+					if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+3]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+3]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start][coloumn_start+1]=Element.point;
+						this.panel.table[row_start][coloumn_start+3]=Element.point;
+						this.panel.table[row_start-1][coloumn_start+2]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+2]=Element.star;
+						this.panel.table[row_start+2][coloumn_start+2]=Element.star;
+					}
 				}
-			 }
-			 else if(this.panel.table[i+3][j] == Element.star) {
-				 if (this.panel.table[i][j - 1] == Element.point && this.panel.table[i][j - 2] == Element.point && this.panel.table[i + 1][j - 1] == Element.point && this.panel.table[i + 1][j + 2] == Element.point && this.panel.table[i + 3][j + 1] == Element.point) {
+			}else if(this.rotate_state==2){
+				if((coloumn_start-2>=0)&&(coloumn_start+1<8)){
+					if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-2]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+3][coloumn_start-2]==Element.point)&&(this.panel.table[row_start+3][coloumn_start-1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start]=Element.point;
+						this.panel.table[row_start+3][coloumn_start]=Element.point;
+						this.panel.table[row_start+2][coloumn_start-1]=Element.star;
+						this.panel.table[row_start+2][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+2][coloumn_start-2]=Element.star;
+					}
+				}
+			}else if(this.rotate_state==3){
+				if(row_start+1<12){
+					if((this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+3]==Element.point)&&(this.panel.table[row_start-2][coloumn_start]==Element.point)&&(this.panel.table[row_start-2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start][coloumn_start+2]=Element.point;
+						this.panel.table[row_start][coloumn_start+3]=Element.point;
+						this.panel.table[row_start-1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+						this.panel.table[row_start-2][coloumn_start+1]=Element.star;
+					}
+				}
+			}
+			break;
+		case 9:if(this.rotate_state==0){
+				if(coloumn_start+1<8){
+					if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start+2][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start+1]=Element.star;
+					}
+				}
+			}else if(this.rotate_state==1){
+				if(row_start+1<12){
+					if((this.panel.table[row_start][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start+1][coloumn_start-1]=Element.point;
+						this.panel.table[row_start+2][coloumn_start]=Element.star;
+					}
+				}
+			}else if(this.rotate_state==2){
+				if(coloumn_start-1>=0){
+					if((this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)){
+						update_rotate_state();
+						this.panel.table[row_start][coloumn_start]=Element.point;
+						this.panel.table[row_start+1][coloumn_start-1]=Element.star;
+					}
+				}
+			}else if(this.rotate_state==3){
+				if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
+					update_rotate_state();
+					this.panel.table[row_start][coloumn_start+2]=Element.point;
+					this.panel.table[row_start-1][coloumn_start+1]=Element.star;
+				}
+			}
+			break;
+		case 10:System.out.println("Rotate Once!");	break;
+	}
 
-					 this.panel.table[i][j - 1] = Element.star;
-					 this.panel.table[i][j - 2] = Element.star;
-					 this.panel.table[i + 1][j - 1] = Element.star;
-					 this.panel.table[i + 1][j + 2] = Element.star;
-					 this.panel.table[i + 3][j + 1] = Element.star;
-					 this.panel.table[i][j] = Element.point;   // rotate 2
-					 this.panel.table[i + 1][j] = Element.point;
-					 this.panel.table[i][j + 1] = Element.point;
-					 this.panel.table[i + 1][j + 1] = Element.point;
-					 this.panel.table[i + 3][j - 2] = Element.point;
-				 }
-			 }
-			 else if(this.panel.table[i+2][j] == Element.star)
-			 {
-				 if(this.panel.table[i ][j ] == Element.point && this.panel.table[i + 2][j + 2] == Element.point && this.panel.table[i + 2][j + 3] == Element.point && this.panel.table[i + 3][j +2 ] == Element.point && this.panel.table[i + 3][j + 3] == Element.point ) {
-
-					 this.panel.table[i][j] = Element.point;
-					 this.panel.table[i + 2][j + 2] = Element.point;
-					 this.panel.table[i + 2][j + 3] = Element.point;
-					 this.panel.table[i + 3][j + 2] = Element.point;
-					 this.panel.table[i + 3][j + 3] = Element.point;
-					 this.panel.table[i + 3][j] = Element.star;   // rotate 3
-					 this.panel.table[i][j + 2] = Element.star;
-					 this.panel.table[i][j + 3] = Element.star;
-					 this.panel.table[i + 1][j + 2] = Element.star;
-					 this.panel.table[i + 1][j + 3] = Element.star;
-				 }
-			 }
-			 else
-			 {
-				 if(this.panel.table[i + 2][j ] == Element.point && this.panel.table[i + 3][j] == Element.point && this.panel.table[i + 2][j + 1] == Element.point && this.panel.table[i + 3][j +1 ] == Element.point && this.panel.table[i][j + 3] == Element.point ) {
-
-					 this.panel.table[i][j] = Element.point;
-					 this.panel.table[i + 1][j ] = Element.point;
-					 this.panel.table[i ][j + 1] = Element.point;
-					 this.panel.table[i + 1][j + 1] = Element.point;
-					 this.panel.table[i + 3][j + 3] = Element.point;
-					 this.panel.table[i + 2][j] = Element.star;   // rotate 1
-					 this.panel.table[i + 3][j] = Element.star;
-					 this.panel.table[i + 2][j + 1] = Element.star;
-					 this.panel.table[i + 3][j + 1] = Element.star;
-					 this.panel.table[i ][j + 3] = Element.star;
-				 }
-			 }
-			 break;
-			 
-		case 9: 	 
-			 for(i=0; i< 12;i++)
-		     {
-				for(j=0; j<8; j++) 
-				{
-					if (this.panel.table[i][j] == Element.star)
-					{
-						is_break_loop[9] = 1;
-						break;
-					}
-				}
-				if(is_break_loop[9] == 1){
-					break;
-				}
-		     }
-			 
-			 if(this.panel.table[i+2][j+2] == Element.star && this.panel.table[i+2][j] == Element.star)
-			 {
-			 	if(this.panel.table[i][j+2] == Element.point){
-				 this.panel.table[i + 2][j + 2] = Element.point; //rotate 3
-				 this.panel.table[i][j + 2] = Element.star;
-			 	}
-			 }
-			 else if(this.panel.table[i+2][j+2] == Element.star)
-			 {
-				 if(this.panel.table[i + 2][j] == Element.point){
-				 this.panel.table[i][j] = Element.point;   // rotate 1
-				 this.panel.table[i + 2][j] = Element.star;
-				 }
-			 }
-			 else if(this.panel.table[i+1][j-1] == Element.star)
-	         {
-				 if(this.panel.table[i][j - 1] == Element.point){
-				 this.panel.table[i][j - 1] = Element.star;   // rotate 2
-				 this.panel.table[i][j + 1] = Element.point;
-				 }
-	         }
-			 else
-			{
-				if(this.panel.table[i+2][j+2] == Element.point){
-				this.panel.table[i][j + 2] = Element.point;   // rotate 0
-				this.panel.table[i + 2][j + 2] = Element.star;
-			    }
-			 }
-			 break;
-			 
-		case 10: 	break;
-		}	
-		return new OpResult(ReturnCode.E001);
+	    
+		System.out.println("Rotate Once!");	
+		return new OpResult(ReturnCode.S001);
 	}
 
 	/*
@@ -1817,9 +1596,12 @@ public class TetrisManiaImpl implements ExamOp
 
 	public void time_go(int t){
 		int i=0;
-		for(i=0;i<t;i++){
+		int t_now = t;
+		for(i=0;i<t_now;i++){
 			moveDown(1);
+			this.sys_time++;
 		}
 	}
 
 }
+
