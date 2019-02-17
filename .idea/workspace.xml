@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="af9c2e67-7e1c-4a12-8428-ff6641870a9d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TetrisMania/huawei/TetrisManiaImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TetrisMania/huawei/TetrisManiaImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/huawei/TetrisManiaImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/huawei/TetrisManiaImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/huawei/TetrisManiaMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/huawei/TetrisManiaMain.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/huawei/TetrisManiaImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="1143" column="12" selection-start-line="1143" selection-start-column="12" selection-end-line="1143" selection-end-column="12" />
+            <state relative-caret-position="504">
+              <caret line="632" column="10" lean-forward="true" selection-start-line="632" selection-start-column="10" selection-end-line="632" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -109,7 +106,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550371863150" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550372169798" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -160,7 +157,7 @@
       <workItem from="1549979470738" duration="505000" />
       <workItem from="1550307189203" duration="402000" />
       <workItem from="1550309600944" duration="340000" />
-      <workItem from="1550366147401" duration="5700000" />
+      <workItem from="1550366147401" duration="5942000" />
     </task>
     <task id="LOCAL-00001" summary="row &amp; column的初始化">
       <created>1549802309204</created>
@@ -260,11 +257,18 @@
       <option name="project" value="LOCAL" />
       <updated>1550370701425</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="create move left move right 增加自动出现新积木">
+      <created>1550371892325</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1550371892325</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16150000" />
+    <option name="totallyTimeSpent" value="16392000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -277,9 +281,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.123667374" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.123667374" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -288,7 +291,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989339" visible="true" weight="0.22125813" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989339" visible="true" weight="0.22125813" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -325,7 +328,8 @@
     <MESSAGE value="create 修改" />
     <MESSAGE value="create 修改最终版" />
     <MESSAGE value="create 增加Opresult返回代码" />
-    <option name="LAST_COMMIT_MESSAGE" value="create 增加Opresult返回代码" />
+    <MESSAGE value="create move left move right 增加自动出现新积木" />
+    <option name="LAST_COMMIT_MESSAGE" value="create move left move right 增加自动出现新积木" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/huawei/Element.java">
@@ -355,8 +359,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/huawei/TetrisManiaImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="1143" column="12" selection-start-line="1143" selection-start-column="12" selection-end-line="1143" selection-end-column="12" />
+        <state relative-caret-position="504">
+          <caret line="632" column="10" lean-forward="true" selection-start-line="632" selection-start-column="10" selection-end-line="632" selection-end-column="10" />
         </state>
       </provider>
     </entry>
