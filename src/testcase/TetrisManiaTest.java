@@ -3,12 +3,14 @@ package testcase;
 import org.junit.Test;
 
 /**
- * 测试类
+ * 娴嬭瘯绫�
  *
- * 考生可选择性实现
+ * 鑰冪敓鍙�夋嫨鎬у疄鐜�
  */
 public class TetrisManiaTest {
     @Test
     public void testCase001() {
+    	
+    	
     }
 }
