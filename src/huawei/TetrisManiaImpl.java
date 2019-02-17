@@ -240,6 +240,10 @@ public class TetrisManiaImpl implements ExamOp
 	@Override
 	public OpResult create(int[] ids)
 	{
+		if(is_end == 1){
+			return new OpResult(ReturnCode.E006);
+
+		}
 		int i = 0;
 		int j = 0;
 		int length = ids.length;
