@@ -240,37 +240,40 @@ public class TetrisManiaImpl implements ExamOp
 	public OpResult create(int[] ids)
 	{
 		if(is_end == 1){
-			return new OpResult(ReturnCode.E006);
+			System.out.println("E005");
+			return new OpResult(ReturnCode.E005);
 
-		}
-		int i = 0;
-		int j = 0;
-		int length = ids.length;
-		int free_pointer = 0;   //检测queue 第一个 66的位置，记录在free_location.
-		int free_location = 0;
-
-		for(i = 0 ; i< 10;i++)
-		{
-			if(queue[i] == 66) {
-				free_location = 9 - i;
-				free_pointer = i;
-				break;
-			}
-		}
-		if(length > free_location) {
-			return new OpResult(ReturnCode.E006);
 		}
 		else {
-			for (int k = free_pointer; k < 10; k++) {
-			  queue[k] = ids[j];
-			  j++;
-				if (j == length) {
+			int i = 0;
+			int j = 0;
+			int length = ids.length;
+			int free_pointer = 0;   //检测queue 第一个 66的位置，记录在free_location.
+			int free_location = 0;
+
+			for (i = 0; i < 10; i++) {
+				if (queue[i] == 66) {
+					free_location = 9 - i;
+					free_pointer = i;
 					break;
 				}
 			}
-			return new OpResult(ReturnCode.S001);
+			if (length > free_location) {
+				System.out.println("E006");
+				return new OpResult(ReturnCode.E006);
+			} else {
+				for (int k = free_pointer; k < 10; k++) {
+					queue[k] = ids[j];
+					j++;
+					if (j == length) {
+						break;
+					}
+				}
+				System.out.println("S001");
+				return new OpResult(ReturnCode.S001);
+			}
+			//return new OpResult(ReturnCode.E001);
 		}
-		//return new OpResult(ReturnCode.E001);
 	}
 	/*
 	 * (1) 将活动积木向左移动指定的距离，移动距离以宫格数量计量； (2)
