@@ -37,7 +37,6 @@ public class TetrisManiaMain {
 				int[] num_list=new int[num_create];
 				for(int i=0;i<num_create;i++){
 					num_list[i]=Integer.valueOf(parts[i+1]);
-					System.out.print(num_list[i]);
 				}
 				test_map.create(num_list);
 			}else if(parts[0].matches("qq")){

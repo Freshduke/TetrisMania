@@ -1521,7 +1521,7 @@ public class TetrisManiaImpl implements ExamOp
 				}
 			}
 			break;
-		case 10:System.out.println("Rotate Once!");	break;
+		case 10:break;
 	}
 
 	    
@@ -1542,6 +1542,7 @@ public class TetrisManiaImpl implements ExamOp
 	public OpResult queryQueue(int time)
 	{
 		if(time<this.sys_time){
+			System.out.println("Time ERROR!");
 			return new OpResult(ReturnCode.E008);
 		}else{
 			time_go(time-this.sys_time);
@@ -1555,9 +1556,10 @@ public class TetrisManiaImpl implements ExamOp
 			int length=i;
 			int[] list=new int[length];
 			for(i=0;i<length;i++){
+				System.out.print(list[i]);
 				list[i]=this.queue[i];
 			}
-			
+			System.out.println(" ");			
 			return new OpResult(new Queue(list));
 		}
 	}
@@ -1573,6 +1575,7 @@ public class TetrisManiaImpl implements ExamOp
 	public OpResult queryPanel(int time)
 	{
 		if(time<this.sys_time){
+			System.out.println("Time ERROR!");
 			return new OpResult(ReturnCode.E008);
 		}else{
 			time_go(time-this.sys_time);
@@ -1604,3 +1607,4 @@ public class TetrisManiaImpl implements ExamOp
 	}
 
 }
+
