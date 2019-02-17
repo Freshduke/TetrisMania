@@ -294,9 +294,7 @@ public class TetrisManiaImpl implements ExamOp
 	{
 		// 首先判断活动积木的行列索引
 		// 再判断当前的旋转状态。
-		if(this.is_active==0){
-			Update();
-		}
+
 		int row = 0;      // 当前活动元素的左上角元素行列索引(row,column)
 		int column = 0;
 		int is_break_loop =0;
@@ -329,209 +327,6 @@ public class TetrisManiaImpl implements ExamOp
 		//判断积木旋转次数
 
 		//根据积木标号和旋转次数，将积木位置在面板中标出
-		if(current_building_block_order == 0)     //0号积木
-			this.panel.table[row][column] = Element.star;
-
-		if(current_building_block_order == 1)     //1号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 2)     //2号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)      //3号积木
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 4)      //4号积木
-		{
-			if(rotate_state == 0)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+2][column+1] = Element.star;
-			};
-
-			if(rotate_state == 1)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-				this.panel.table[row+1][column-2] = Element.star;
-			};
-			if(rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-				this.panel.table[row+3][column] = Element.star;
-			};
-			if(rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 5)      //5号积木
-		{
-			if(rotate_state == 0)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-			};
-
-			if(rotate_state == 1)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row+1][column-2] = Element.star;
-			};
-			if(rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-				this.panel.table[row+3][column] = Element.star;
-			};
-			if(rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 6)      //6号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-				this.panel.table[row+2][column-1] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+1][column+2] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 7)     //7号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+2][column+1] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 8)     //8号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-				this.panel.table[row+3][column] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row][column+3] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 9)      //9号积木
-		{
-			if(rotate_state == 0)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-			};
-
-			if(rotate_state == 1)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-			};
-			if(rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-			};
-			if(rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 10)      //10号积木
-		{
-			this.panel.table[row][column] = Element.star;
-		};
 
 		outer:
 		for(int current_dis=0; current_dis < distance; current_dis++)  //动态判断左移是否结束
@@ -553,7 +348,7 @@ public class TetrisManiaImpl implements ExamOp
 						this.panel.table[i][j-1] = Element.star;
 					};
 		}
-		System.out.println("move left succeed!");
+		System.out.println("move left suceed!");
 
 		return new OpResult(ReturnCode.S001);
 	}
@@ -578,9 +373,7 @@ public class TetrisManiaImpl implements ExamOp
 	{
 		// 首先判断活动积木的行列索引
 		// 再判断当前的旋转状态。
-		if(this.is_active==0){
-			Update();
-		}
+
 		int row = 0;      // 当前活动元素的左上角元素行列索引(row,column)
 		int column = 0;
 		int is_break_loop =0;
@@ -613,209 +406,7 @@ public class TetrisManiaImpl implements ExamOp
 		//判断积木旋转次数
 
 		//根据积木标号和旋转次数，将积木位置在面板中标出
-		if(current_building_block_order == 0)     //0号积木
-			this.panel.table[row][column] = Element.star;
-
-		if(current_building_block_order == 1)     //1号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 2)     //2号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)      //3号积木
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 4)      //4号积木
-		{
-			if(rotate_state == 0)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+2][column+1] = Element.star;
-			};
-
-			if(rotate_state == 1)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-				this.panel.table[row+1][column-2] = Element.star;
-			};
-			if(rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-				this.panel.table[row+3][column] = Element.star;
-			};
-			if(rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 5)      //5号积木
-		{
-			if(rotate_state == 0)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-			};
-
-			if(rotate_state == 1)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row+1][column-2] = Element.star;
-			};
-			if(rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-				this.panel.table[row+3][column] = Element.star;
-			};
-			if(rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 6)      //6号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-				this.panel.table[row+2][column-1] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+1][column+2] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 7)     //7号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+2][column+1] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 8)     //8号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-				this.panel.table[row+3][column] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row][column+3] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 9)      //9号积木
-		{
-			if(rotate_state == 0)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-			};
-
-			if(rotate_state == 1)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-			};
-			if(rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-			};
-			if(rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 10)      //10号积木
-		{
-			this.panel.table[row][column] = Element.star;
-		};
+	
 
 		outer:
 		for(int current_dis=0; current_dis < distance; current_dis++)  //动态判断右移是否结束
@@ -880,210 +471,7 @@ public class TetrisManiaImpl implements ExamOp
 		}
 		//判断积木旋转次数
 
-		//根据积木标号和旋转次数，将积木位置在面板中标出
-		if(current_building_block_order == 0)     //0号积木
-			this.panel.table[row][column] = Element.star;
-
-		if(current_building_block_order == 1)     //1号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 2)     //2号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)      //3号积木
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 4)      //4号积木
-		{
-			if(rotate_state == 0)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+2][column+1] = Element.star;
-			};
-
-			if(rotate_state == 1)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-				this.panel.table[row+1][column-2] = Element.star;
-			};
-			if(rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-				this.panel.table[row+3][column] = Element.star;
-			};
-			if(rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 5)      //5号积木
-		{
-			if(rotate_state == 0)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-			};
-
-			if(rotate_state == 1)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row+1][column-2] = Element.star;
-			};
-			if(rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-				this.panel.table[row+3][column] = Element.star;
-			};
-			if(rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 6)      //6号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-				this.panel.table[row+2][column-1] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+1][column+2] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 7)     //7号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+2][column+1] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 8)     //8号积木
-		{
-			if(rotate_state == 0 || rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-				this.panel.table[row+3][column] = Element.star;
-			};
-
-			if(rotate_state == 1 || rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row][column+3] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 9)      //9号积木
-		{
-			if(rotate_state == 0)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-			};
-
-			if(rotate_state == 1)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column-1] = Element.star;
-			};
-			if(rotate_state == 2)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row+1][column] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-				this.panel.table[row+2][column] = Element.star;
-			};
-			if(rotate_state == 3)
-			{
-				this.panel.table[row][column] = Element.star;
-				this.panel.table[row][column+1] = Element.star;
-				this.panel.table[row][column+2] = Element.star;
-				this.panel.table[row+1][column+1] = Element.star;
-			};
-
-		};
-
-		if(current_building_block_order == 10)      //10号积木
-		{
-			this.panel.table[row][column] = Element.star;
-		};
+		
 
 		int is_down = 0;
 		outer:
@@ -1125,7 +513,7 @@ public class TetrisManiaImpl implements ExamOp
 					};
 		}
 
-		if(is_down == 1)  //如果活动积木在移动中已至底部，变为固定积木，则需考虑其是否存在满行消除
+		if(is_down == 1){  //如果活动积木在移动中已至底部，变为固定积木，则需考虑其是否存在满行消除
 			for(int i=0;i<12;i++)
 			{
 				if(this.panel.table[i][0] == Element.X && this.panel.table[i][1] == Element.X && this.panel.table[i][2] == Element.X && this.panel.table[i][3] == Element.X && this.panel.table[i][4] == Element.X && this.panel.table[i][5] == Element.X && this.panel.table[i][6] == Element.X && this.panel.table[i][7] == Element.X)
@@ -1140,11 +528,11 @@ public class TetrisManiaImpl implements ExamOp
 								this.panel.table[ii][j] = this.panel.table[ii-1][j];
 					};
 				}
-			};
-
-		System.out.println("move down suceed!");
+			}
+			Update();
+		}
+			System.out.println("move down suceed!");
 		return new OpResult(ReturnCode.S001);
-
 
 	}
 	
@@ -1637,4 +1025,3 @@ public class TetrisManiaImpl implements ExamOp
 	}
 
 }
-
