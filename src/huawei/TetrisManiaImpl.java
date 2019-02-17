@@ -250,6 +250,7 @@ public class TetrisManiaImpl implements ExamOp
 			int length = ids.length;
 			int free_pointer = 0;   //检测queue 第一个 66的位置，记录在free_location.
 			int free_location = 0;
+
 			for (i = 0; i < 10; i++) {
 				if (queue[i] == 66) {
 					free_location = 10 - i;
@@ -264,7 +265,7 @@ public class TetrisManiaImpl implements ExamOp
 				for (int k = free_pointer; k < 10; k++) {
 					queue[k] = ids[j];
 					j++;
-					if (j == length ) {
+					if (j == length+1) {
 						break;
 					}
 				}
@@ -570,7 +571,7 @@ public class TetrisManiaImpl implements ExamOp
 		}
 		
 		switch(current_building_block_order){
-		case 0:	break;
+		case 0:System.out.println("Rotate Once!");	break;
 		case 1:if(this.rotate_state==0){
 					if(coloumn_start+1<8){
 							if(this.panel.table[row_start][coloumn_start+1]==Element.point){
@@ -602,7 +603,6 @@ public class TetrisManiaImpl implements ExamOp
 							this.panel.table[row_start-1][coloumn_start]=Element.star;
 					 }
 				}
-
 			   break;
 		case 2:if(this.rotate_state==0){
 					if((coloumn_start+1<8)&&(coloumn_start-1>=0)){
@@ -935,7 +935,9 @@ public class TetrisManiaImpl implements ExamOp
 			break;
 		case 10:break;
 	}
-		System.out.println("Rotate Operate Once!");
+
+	    
+		System.out.println("Rotate Once!");	
 		return new OpResult(ReturnCode.S001);
 	}
 
