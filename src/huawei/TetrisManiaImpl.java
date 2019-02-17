@@ -265,7 +265,7 @@ public class TetrisManiaImpl implements ExamOp
 				for (int k = free_pointer; k < 10; k++) {
 					queue[k] = ids[j];
 					j++;
-					if (j == length+1) {
+					if (j == length) {
 						break;
 					}
 				}
