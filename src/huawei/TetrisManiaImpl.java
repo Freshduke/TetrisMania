@@ -570,7 +570,7 @@ public class TetrisManiaImpl implements ExamOp
 		}
 		
 		switch(current_building_block_order){
-		case 0:System.out.println("Rotate Once!");	break;
+		case 0:	break;
 		case 1:if(this.rotate_state==0){
 					if(coloumn_start+1<8){
 							if(this.panel.table[row_start][coloumn_start+1]==Element.point){
@@ -602,6 +602,7 @@ public class TetrisManiaImpl implements ExamOp
 							this.panel.table[row_start-1][coloumn_start]=Element.star;
 					 }
 				}
+
 			   break;
 		case 2:if(this.rotate_state==0){
 					if((coloumn_start+1<8)&&(coloumn_start-1>=0)){
@@ -934,9 +935,7 @@ public class TetrisManiaImpl implements ExamOp
 			break;
 		case 10:break;
 	}
-
-	    
-		System.out.println("Rotate Once!");	
+		System.out.println("Rotate Operate Once!");
 		return new OpResult(ReturnCode.S001);
 	}
 
