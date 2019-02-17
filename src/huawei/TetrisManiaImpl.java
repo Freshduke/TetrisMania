@@ -197,8 +197,8 @@ public class TetrisManiaImpl implements ExamOp
 				if(is_active == 1) {
 					for (int i = 0; i < 9; i++) {
 						queue[i] = queue[i + 1];
-						queue[9] = 66;
 					}
+					queue[9] = 66;
 				}
 
 			}
@@ -250,10 +250,9 @@ public class TetrisManiaImpl implements ExamOp
 			int length = ids.length;
 			int free_pointer = 0;   //检测queue 第一个 66的位置，记录在free_location.
 			int free_location = 0;
-
 			for (i = 0; i < 10; i++) {
 				if (queue[i] == 66) {
-					free_location = 9 - i;
+					free_location = 10 - i;
 					free_pointer = i;
 					break;
 				}
@@ -265,7 +264,7 @@ public class TetrisManiaImpl implements ExamOp
 				for (int k = free_pointer; k < 10; k++) {
 					queue[k] = ids[j];
 					j++;
-					if (j == length) {
+					if (j == length ) {
 						break;
 					}
 				}

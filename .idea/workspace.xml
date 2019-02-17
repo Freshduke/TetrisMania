@@ -4,8 +4,9 @@
     <bookmark url="file://$PROJECT_DIR$/src/huawei/TetrisManiaImpl.java" line="239" mnemonic="C" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af9c2e67-7e1c-4a12-8428-ff6641870a9d" name="Default Changelist" comment="">
+    <list default="true" id="af9c2e67-7e1c-4a12-8428-ff6641870a9d" name="Default Changelist" comment="我要和代码">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/huawei/TetrisManiaImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/huawei/TetrisManiaImpl.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,23 +19,27 @@
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TetrisMania.iml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/huawei/TetrisManiaImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="632" column="10" lean-forward="true" selection-start-line="632" selection-start-column="10" selection-end-line="632" selection-end-column="10" />
+            <state relative-caret-position="209">
+              <caret line="11" column="9" lean-forward="true" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/huawei/TetrisManiaImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="98">
+              <caret line="183" column="28" lean-forward="true" selection-start-line="183" selection-start-column="28" selection-end-line="183" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/huawei/TetrisManiaMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="32" column="35" lean-forward="true" selection-start-line="32" selection-start-column="35" selection-end-line="33" selection-end-column="32" />
+            <state relative-caret-position="589">
+              <caret line="41" column="17" lean-forward="true" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -53,6 +58,7 @@
       <find>queryP</find>
       <find>queue</find>
       <find>moveleft</find>
+      <find>Update</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -106,7 +112,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550372169798" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550373065465" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -157,7 +163,7 @@
       <workItem from="1549979470738" duration="505000" />
       <workItem from="1550307189203" duration="402000" />
       <workItem from="1550309600944" duration="340000" />
-      <workItem from="1550366147401" duration="5942000" />
+      <workItem from="1550366147401" duration="6898000" />
     </task>
     <task id="LOCAL-00001" summary="row &amp; column的初始化">
       <created>1549802309204</created>
@@ -264,11 +270,18 @@
       <option name="project" value="LOCAL" />
       <updated>1550371892325</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="我要和代码">
+      <created>1550372183597</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1550372183597</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16392000" />
+    <option name="totallyTimeSpent" value="17348000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -281,6 +294,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.123667374" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -329,7 +343,8 @@
     <MESSAGE value="create 修改最终版" />
     <MESSAGE value="create 增加Opresult返回代码" />
     <MESSAGE value="create move left move right 增加自动出现新积木" />
-    <option name="LAST_COMMIT_MESSAGE" value="create move left move right 增加自动出现新积木" />
+    <MESSAGE value="我要和代码" />
+    <option name="LAST_COMMIT_MESSAGE" value="我要和代码" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/huawei/Element.java">
@@ -347,20 +362,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/huawei/TetrisManiaMain.java">
+    <entry file="file://$PROJECT_DIR$/TetrisMania.iml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="32" column="35" lean-forward="true" selection-start-line="32" selection-start-column="35" selection-end-line="33" selection-end-column="32" />
+        <state relative-caret-position="209">
+          <caret line="11" column="9" lean-forward="true" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TetrisMania.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/huawei/TetrisManiaImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="632" column="10" lean-forward="true" selection-start-line="632" selection-start-column="10" selection-end-line="632" selection-end-column="10" />
+        <state relative-caret-position="98">
+          <caret line="183" column="28" lean-forward="true" selection-start-line="183" selection-start-column="28" selection-end-line="183" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/huawei/TetrisManiaMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="41" column="17" lean-forward="true" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
         </state>
       </provider>
     </entry>
