@@ -22,7 +22,7 @@ public class TetrisManiaMain {
          * 启动Socket服务侦听5555端口，从Socket获取命令，会丢给Command类的command函数执行
          * Command类的command函数已经实现了从Socket接收到字符串后的解析与分发
          * 考生只需要实现TetrisManiaImpl类的各命令接口即可。
-         
+
 
         Command cmd = new ExamCmd(new TetrisManiaImpl());
         ExamSocketServer ess = new ExamSocketServer(cmd);
@@ -33,13 +33,12 @@ public class TetrisManiaMain {
     	JFrame jframe=new JFrame();
     	while(order.matches("ends")==false){
     		order=scanner.nextLine();
-    		String[] parts=order.split(" ");   		
+    		String[] parts=order.split(" ");
     		if(parts[0].matches("c")){
     			int num_create=parts.length-1;
     			int[] num_list=new int[num_create];
     			for(int i=0;i<num_create;i++){
     				num_list[i]=Integer.valueOf(parts[i+1]);
-    				
     			}
     			test_map.create(num_list);
     		}else if(parts[0].matches("qq")){
@@ -72,7 +71,7 @@ public class TetrisManiaMain {
     		jframe.setVisible (true);
     	}
     }
-    
+
     public static JFrame drawMap(MyPanel panel){
     	JFrame jframe=new JFrame();
         GridLayout grid = new GridLayout (12, 8);
@@ -101,6 +100,6 @@ public class TetrisManiaMain {
         jframe.setBounds (50, 50, 400,500);
         jframe.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         return jframe;
-        
+
     }
 }
