@@ -7,7 +7,7 @@ import huawei.exam.*;
 
 /*
  * 实现类
- *
+ * 
  * 各方法请按要求返回，考试框架负责报文输出
  */
 
@@ -19,7 +19,6 @@ public class TetrisManiaImpl implements ExamOp
 	private int[] queue=new int[10];
 	private int current_building_block_order;
 	public MyPanel panel;
-	private int is_firsttime =1;
 	private int is_active;                      //当前是否有活动积木,0表示当前panel内务活动积木
 	private int is_end = 0;                         //当前游戏结束条件，
 	/*
@@ -45,13 +44,12 @@ public class TetrisManiaImpl implements ExamOp
 	 */
 	public TetrisManiaImpl()
 	{
-		this.is_active = 0;
+		this.is_active = 0; 
 		this.panel=new MyPanel();
 		this.sys_time = 0;
 		rotate_state=0;
-		is_firsttime =1;
 		is_active=0;                      //当前是否有活动积木,0表示当前panel内务活动积木
-		is_end = 0;
+		is_end = 0; 
 		for(int i=0; i< 10;i++) {
 			this.queue[i] = 66;  // 66 means that the position in queue is empty.
 		}
@@ -59,6 +57,7 @@ public class TetrisManiaImpl implements ExamOp
 	}
 
 	public void Update () {
+		this.rotate_state=0;
 		if (is_active == 1) {}
 		else {
 			if (queue[0]!= 66) {
@@ -205,23 +204,23 @@ public class TetrisManiaImpl implements ExamOp
 			}
 		}
 	}
-
+	
 	/*
 	 * 将系统重置为初始状态
-	 *
+	 * 
 	 * @return 返回码
 	 */
 	@Override
 	public OpResult reset()
 	{
-		this.is_active = 0;         //当前是否有活动积木,0表示当前panel内无活动积木
+		this.is_active = 0; 
 		this.panel=new MyPanel();
 		this.sys_time = 0;
-		this.rotate_state=0;
-		this.is_firsttime =1;
-		this.is_end = 0;
+		rotate_state=0;
+		is_active=0;                      //当前是否有活动积木,0表示当前panel内务活动积木
+		is_end = 0; 
 		for(int i=0; i< 10;i++) {
-			this.queue[i] = 66;     // 66 means that the position in queue is empty.
+			this.queue[i] = 66;  // 66 means that the position in queue is empty.
 		}
 		this.current_building_block_order = 66;
 		return new OpResult(ReturnCode.S001);
@@ -231,8 +230,8 @@ public class TetrisManiaImpl implements ExamOp
 	 * (1) 创建指定编号的一个或多个积木，新创建的积木按命令参数从左至右的顺序加入积木队列。此时若游戏面板中不存在活动积木，
 	 * 系统从积木队列中取出居于首位的积木，在游戏面板中指定位置生成； (2) 积木编号取[0, 10]范围内的整数，值的合法性不作为考点，考生无须关注；
 	 * (3) 命令携带参数个数取[1, 10]内的整数，值的合法性不作为考点，考生无须关注。
-	 *
-
+	 * 
+	 * 
 	 * @param ids
 	 *            积木编号序列
 	 * @return 返回码
@@ -273,15 +272,14 @@ public class TetrisManiaImpl implements ExamOp
 		}
 		//return new OpResult(ReturnCode.E001);
 	}
-
 	/*
 	 * (1) 将活动积木向左移动指定的距离，移动距离以宫格数量计量； (2)
 	 * 在移动过程中，当活动积木中任一方块的左边界与游戏面板左边界或固定积木方块右边界接触时，活动积木无法继续左移，
 	 * 系统对本次操作命令的处理终结，左移操作成功； (3)
 	 * 因面板边界或其它积木阻挡导致实际可移动距离小于输入的移动距离时，活动积木只按实际距离移动并返回操作成功； (4)
 	 * 左移距离取[1，8]范围内的整数，值的合法性不作为考点，考生无须关注。
-	 *
-	 *
+	 * 
+	 * 
 	 * @param distance
 	 *            移动距离
 	 * @return 返回码
@@ -296,11 +294,14 @@ public class TetrisManiaImpl implements ExamOp
 		int is_break_loop =0;
 
 
-		if(is_end == 1)  //判断当前是否已经游戏结束
+		if(is_end == 1){  //判断当前是否已经游戏结束
+			System.out.println("Game Over!");
 			return new OpResult(ReturnCode.E005);
-		if(is_active == 0)   // 判断当前是否还有可活动积木
+		}
+		if(is_active == 0){   // 判断当前是否还有可活动积木
+			System.out.println("ERROR:No Active blocks!");
 			return new OpResult(ReturnCode.E007);
-
+		}
 		//游戏未结束且有可活动积木时方可进行move left 操作
 		//首先取出当前状态下积木的左上角的坐标
 		for( row = 0; row< 12; row++)
@@ -530,7 +531,7 @@ public class TetrisManiaImpl implements ExamOp
 			for(int i=0;i<12;i++)  //判断积木是否到达面板最左端
 			   if(this.panel.table[i][0] == Element.star)
 				   break outer;
-
+			
 			for(int i=0;i<12;i++)   //判断活动积木左侧是否紧邻固定积木，若是则移动结束，否则继续
 				for(int j=0;j<8;j++)
 					if(this.panel.table[i][j] == Element.star && this.panel.table[i][j-1] == Element.X) //活动积木左侧有面板，移动结束
@@ -544,8 +545,8 @@ public class TetrisManiaImpl implements ExamOp
 						this.panel.table[i][j-1] = Element.star;
 					};
 		}
+		System.out.println("move left suceed!");
 
-		Update();    // 更新活动积木。
 		return new OpResult(ReturnCode.S001);
 	}
 
@@ -555,8 +556,8 @@ public class TetrisManiaImpl implements ExamOp
 	 * 活动积木无法继续右移，系统对本次操作命令的处理终结，右移操作成功； (3)
 	 * 因面板边界或其它积木阻挡导致实际可移动距离小于输入的移动距离时，活动积木只按实际距离移动并返回操作成功； (4)
 	 * 右移距离取[1，8]范围内的整数，值的合法性不作为考点，考生无须关注。
-	 *
-	 *
+	 * 
+	 * 
 	 * @param distance
 	 *            移动距离
 	 * @return 返回码
@@ -575,11 +576,14 @@ public class TetrisManiaImpl implements ExamOp
 		int is_break_loop =0;
 
 
-		if(is_end == 1)  //判断当前是否已经游戏结束
+		if(is_end == 1){  //判断当前是否已经游戏结束
+			System.out.println("Game Over!");
 			return new OpResult(ReturnCode.E005);
-		if(is_active == 0)   // 判断当前是否还有可活动积木
+		}
+		if(is_active == 0){   // 判断当前是否还有可活动积木
+			System.out.println("ERROR:No Active blocks!");
 			return new OpResult(ReturnCode.E007);
-
+		}
 		//游戏未结束且有可活动积木时方可进行move left 操作
 		//首先取出当前状态下积木的左上角的坐标
 		for( row = 0; row< 12; row++)
@@ -809,7 +813,7 @@ public class TetrisManiaImpl implements ExamOp
 			for(int i=0;i<12;i++)  //判断积木是否到达面板最右端
 				   if(this.panel.table[i][7] == Element.star)
 					   break outer;
-
+			
 			for(int i=0;i<12;i++)   //判断活动积木右侧是否紧邻固定积木，若是则移动结束，否则继续
 				for(int j=1;j<8;j++)
 					if(this.panel.table[i][j] == Element.star && this.panel.table[i][j+1] == Element.X) //活动积木左侧有面板，移动结束
@@ -824,7 +828,7 @@ public class TetrisManiaImpl implements ExamOp
 					};
 		}
 
-		Update();
+		System.out.println("move right suceed!");
 		return new OpResult(ReturnCode.S001);
 	}
 
@@ -840,13 +844,14 @@ public class TetrisManiaImpl implements ExamOp
 		int is_break_loop =0;
 
 
-		if(is_end == 1)  //判断当前是否已经游戏结束
+		if(is_end == 1){  //判断当前是否已经游戏结束
+			System.out.println("Game Over!");
 			return new OpResult(ReturnCode.E005);
-		if(is_active == 0 && is_firsttime == 0)   // 判断当前是否还有可活动积木
+		}
+		if(is_active == 0){   // 判断当前是否还有可活动积木
+			System.out.println("ERROR:No Active blocks!");
 			return new OpResult(ReturnCode.E007);
-		if(is_firsttime == 1)
-		   {  Update();  is_firsttime = 0;};
-
+		}
 		//游戏未结束且有可活动积木时方可进行move left 操作
 		//首先取出当前状态下积木的左上角的坐标
 		for( row = 0; row< 12; row++)
@@ -1089,7 +1094,7 @@ public class TetrisManiaImpl implements ExamOp
 									is_active = 0;
 									break outer;
 								};
-
+					
 					if(this.panel.table[i][j] == Element.star && (this.panel.table[i+1][j] == Element.X )) //活动积木下侧有面板，移动结束，而且此时是在移动步数还未走完，再走则会变成固定积木
 					{
 						for(int ii=0;ii<12;ii++)
@@ -1098,7 +1103,7 @@ public class TetrisManiaImpl implements ExamOp
 									this.panel.table[ii][jj] = Element.X;
 						is_down = 1;
 						is_active = 0;
-						break outer;
+						break outer;   
 					};
 				 };
 			for(int i=10;i>=0;i--)  //若可继续下移，则对面板进行更新
@@ -1126,13 +1131,11 @@ public class TetrisManiaImpl implements ExamOp
 					};
 				}
 			};
-
-
-		Update();
+			System.out.println("move down suceed!");
 		return new OpResult(ReturnCode.S001);
 
 	}
-
+	
 	private void update_rotate_state(){
 		this.rotate_state++;
 		if(this.rotate_state==4){
@@ -1166,13 +1169,13 @@ public class TetrisManiaImpl implements ExamOp
 				break;
 			}
 		}
-
+		
 		switch(current_building_block_order){
 		case 0:System.out.println("Rotate Once!");	break;
 		case 1:if(this.rotate_state==0){
 					if(coloumn_start+1<8){
 							if(this.panel.table[row_start][coloumn_start+1]==Element.point){
-								update_rotate_state();
+								update_rotate_state();	
 								this.panel.table[row_start+1][coloumn_start]=Element.point;
 								this.panel.table[row_start][coloumn_start+1]=Element.star;
 							}
@@ -1180,7 +1183,7 @@ public class TetrisManiaImpl implements ExamOp
 				}else if(this.rotate_state==1){
 					if(row_start+1<12){
 							if(this.panel.table[row_start+1][coloumn_start+1]==Element.point){
-								update_rotate_state();
+								update_rotate_state();	
 								this.panel.table[row_start][coloumn_start]=Element.point;
 								this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 							}
@@ -1188,14 +1191,14 @@ public class TetrisManiaImpl implements ExamOp
 				}else if(this.rotate_state==2){
 					if(coloumn_start-1>=0){
 							if(this.panel.table[row_start+1][coloumn_start-1]==Element.point){
-								update_rotate_state();
+								update_rotate_state();	
 								this.panel.table[row_start][coloumn_start]=Element.point;
 								this.panel.table[row_start+1][coloumn_start-1]=Element.star;
 							}
 					 }
 				}else if(this.rotate_state==3){
 					if(this.panel.table[row_start-1][coloumn_start]==Element.point){
-							update_rotate_state();
+							update_rotate_state();	
 							this.panel.table[row_start][coloumn_start+1]=Element.point;
 							this.panel.table[row_start-1][coloumn_start]=Element.star;
 					 }
@@ -1204,7 +1207,7 @@ public class TetrisManiaImpl implements ExamOp
 		case 2:if(this.rotate_state==0){
 					if((coloumn_start+1<8)&&(coloumn_start-1>=0)){
 								if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
-									update_rotate_state();
+									update_rotate_state();	
 									this.panel.table[row_start][coloumn_start]=Element.point;
 									this.panel.table[row_start+2][coloumn_start]=Element.point;
 									this.panel.table[row_start+1][coloumn_start-1]=Element.star;
@@ -1214,14 +1217,13 @@ public class TetrisManiaImpl implements ExamOp
 				}else if(this.rotate_state==1){
 					if(row_start+1<12){
 								if((this.panel.table[row_start-1][coloumn_start]==Element.point)&&(this.panel.table[row_start-1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+2]==Element.point)){
-									update_rotate_state();
+									update_rotate_state();	
 									this.panel.table[row_start][coloumn_start]=Element.point;
 									this.panel.table[row_start][coloumn_start+2]=Element.point;
 									this.panel.table[row_start-1][coloumn_start+1]=Element.star;
 									this.panel.table[row_start+1][coloumn_start+1]=Element.star;
 								}
 					}
-
 				}else if(this.rotate_state==2){
 					if((coloumn_start+1<8)&&(coloumn_start-1>=0)){
 						if((this.panel.table[row_start+1][coloumn_start-1]==Element.point)&&(this.panel.table[row_start+2][coloumn_start-1]==Element.point)&&(this.panel.table[row_start][coloumn_start+1]==Element.point)&&(this.panel.table[row_start+1][coloumn_start+1]==Element.point)){
@@ -1252,19 +1254,19 @@ public class TetrisManiaImpl implements ExamOp
 				}
 			}else if(this.rotate_state==1){
 				if(this.panel.table[row_start+1][coloumn_start]==Element.point){
-					update_rotate_state();
+					update_rotate_state();	
 					this.panel.table[row_start][coloumn_start]=Element.point;
 					this.panel.table[row_start+1][coloumn_start]=Element.star;
 				}
 			}else if(this.rotate_state==2){
 				if(this.panel.table[row_start][coloumn_start-1]==Element.point){
-					update_rotate_state();
+					update_rotate_state();	
 					this.panel.table[row_start][coloumn_start]=Element.point;
 					this.panel.table[row_start][coloumn_start-1]=Element.star;
 				}
 			}else if(this.rotate_state==3){
 				if(this.panel.table[row_start][coloumn_start+1]==Element.point){
-					update_rotate_state();
+					update_rotate_state();	
 					this.panel.table[row_start+1][coloumn_start+1]=Element.point;
 					this.panel.table[row_start][coloumn_start+1]=Element.star;
 				}
@@ -1531,11 +1533,11 @@ public class TetrisManiaImpl implements ExamOp
 				}
 			}
 			break;
-		case 10:System.out.println("Rotate Once!");	break;
+		case 10:break;
 	}
 
-
-		System.out.println("Rotate Once!");
+	    
+		System.out.println("Rotate Once!");	
 		return new OpResult(ReturnCode.S001);
 	}
 
@@ -1543,7 +1545,7 @@ public class TetrisManiaImpl implements ExamOp
 	 * (1) 时间不小于当前系统时间时，优先触发系统时间更新至命令携带的时间，在指定时间点对游戏面板进行查询，； (2)
 	 * 时间取[0,1000]范围内整数，值的合法性不作为考点，考生无须关注； (3)
 	 * 本命令不受游戏进度影响，即使游戏结束，命令依然生效，将系统时间更新至输入的时间并输出查询结果。
-	 *
+	 * 
 	 * @param time
 	 *            时间
 	 * @return 查询结果
@@ -1555,9 +1557,12 @@ public class TetrisManiaImpl implements ExamOp
 			System.out.println("Time ERROR!");
 			return new OpResult(ReturnCode.E008);
 		}else{
+			if(this.is_active==0){
+				Update();
+			}
 			time_go(time-this.sys_time);
 			int i=0;
-
+			
 			for(i=0;i<10;i++){
 				if(this.queue[i]==66){
 					break;
@@ -1576,7 +1581,7 @@ public class TetrisManiaImpl implements ExamOp
 
 	/**
 	 * 查询积木队列
-	 *
+	 * 
 	 * @param time
 	 *            时间
 	 * @return 查询结果
@@ -1588,6 +1593,9 @@ public class TetrisManiaImpl implements ExamOp
 			System.out.println("Time ERROR!");
 			return new OpResult(ReturnCode.E008);
 		}else{
+			if(this.is_active==0){
+				Update();
+			}
 			time_go(time-this.sys_time);
 			int i,j;
 			FillType[][] blocks=new FillType[12][8];
@@ -1617,3 +1625,4 @@ public class TetrisManiaImpl implements ExamOp
 	}
 
 }
+
