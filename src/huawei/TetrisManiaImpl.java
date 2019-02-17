@@ -19,7 +19,6 @@ public class TetrisManiaImpl implements ExamOp
 	private int[] queue=new int[10];
 	private int current_building_block_order;
 	public MyPanel panel;
-	private int is_firsttime =1;
 	private int is_active;                      //当前是否有活动积木,0表示当前panel内务活动积木
 	private int is_end = 0;                         //当前游戏结束条件，
 	/*
@@ -49,7 +48,6 @@ public class TetrisManiaImpl implements ExamOp
 		this.panel=new MyPanel();
 		this.sys_time = 0;
 		rotate_state=0;
-		is_firsttime =1;
 		is_active=0;                      //当前是否有活动积木,0表示当前panel内务活动积木
 		is_end = 0; 
 		for(int i=0; i< 10;i++) {
@@ -219,7 +217,6 @@ public class TetrisManiaImpl implements ExamOp
 		this.panel=new MyPanel();
 		this.sys_time = 0;
 		rotate_state=0;
-		is_firsttime =1;
 		is_active=0;                      //当前是否有活动积木,0表示当前panel内务活动积木
 		is_end = 0; 
 		for(int i=0; i< 10;i++) {
@@ -287,11 +284,14 @@ public class TetrisManiaImpl implements ExamOp
 		int is_break_loop =0;
 
 
-		if(is_end == 1)  //判断当前是否已经游戏结束
+		if(is_end == 1){  //判断当前是否已经游戏结束
+			System.out.println("Game Over!");
 			return new OpResult(ReturnCode.E005);
-		if(is_active == 0)   // 判断当前是否还有可活动积木
+		}
+		if(is_active == 0){   // 判断当前是否还有可活动积木
+			System.out.println("ERROR:No Active blocks!");
 			return new OpResult(ReturnCode.E007);
-
+		}
 		//游戏未结束且有可活动积木时方可进行move left 操作
 		//首先取出当前状态下积木的左上角的坐标
 		for( row = 0; row< 12; row++)
@@ -535,8 +535,8 @@ public class TetrisManiaImpl implements ExamOp
 						this.panel.table[i][j-1] = Element.star;
 					};
 		}
+		System.out.println("move left suceed!");
 
-		Update();    // 更新活动积木。
 		return new OpResult(ReturnCode.S001);
 	}
 
@@ -566,11 +566,14 @@ public class TetrisManiaImpl implements ExamOp
 		int is_break_loop =0;
 
 
-		if(is_end == 1)  //判断当前是否已经游戏结束
+		if(is_end == 1){  //判断当前是否已经游戏结束
+			System.out.println("Game Over!");
 			return new OpResult(ReturnCode.E005);
-		if(is_active == 0)   // 判断当前是否还有可活动积木
+		}
+		if(is_active == 0){   // 判断当前是否还有可活动积木
+			System.out.println("ERROR:No Active blocks!");
 			return new OpResult(ReturnCode.E007);
-
+		}
 		//游戏未结束且有可活动积木时方可进行move left 操作
 		//首先取出当前状态下积木的左上角的坐标
 		for( row = 0; row< 12; row++)
@@ -815,7 +818,7 @@ public class TetrisManiaImpl implements ExamOp
 					};
 		}
 
-		Update();
+		System.out.println("move right suceed!");
 		return new OpResult(ReturnCode.S001);
 	}
 
@@ -831,13 +834,14 @@ public class TetrisManiaImpl implements ExamOp
 		int is_break_loop =0;
 
 
-		if(is_end == 1)  //判断当前是否已经游戏结束
+		if(is_end == 1){  //判断当前是否已经游戏结束
+			System.out.println("Game Over!");
 			return new OpResult(ReturnCode.E005);
-		if(is_active == 0 && is_firsttime == 0)   // 判断当前是否还有可活动积木
+		}
+		if(is_active == 0){   // 判断当前是否还有可活动积木
+			System.out.println("ERROR:No Active blocks!");
 			return new OpResult(ReturnCode.E007);
-		if(is_firsttime == 1)
-		   {  Update();  is_firsttime = 0;}; 
-		
+		}
 		//游戏未结束且有可活动积木时方可进行move left 操作
 		//首先取出当前状态下积木的左上角的坐标
 		for( row = 0; row< 12; row++)
@@ -1117,9 +1121,7 @@ public class TetrisManiaImpl implements ExamOp
 					};
 				}
 			};
-
-
-		Update();
+			System.out.println("move down suceed!");
 		return new OpResult(ReturnCode.S001);
 
 	}
@@ -1545,6 +1547,9 @@ public class TetrisManiaImpl implements ExamOp
 			System.out.println("Time ERROR!");
 			return new OpResult(ReturnCode.E008);
 		}else{
+			if(this.is_active==0){
+				Update();
+			}
 			time_go(time-this.sys_time);
 			int i=0;
 			
@@ -1559,7 +1564,7 @@ public class TetrisManiaImpl implements ExamOp
 				list[i]=this.queue[i];
 				System.out.print(list[i]);
 			}
-			System.out.println(" ");			
+			System.out.println(" ");
 			return new OpResult(new Queue(list));
 		}
 	}
@@ -1578,6 +1583,9 @@ public class TetrisManiaImpl implements ExamOp
 			System.out.println("Time ERROR!");
 			return new OpResult(ReturnCode.E008);
 		}else{
+			if(this.is_active==0){
+				Update();
+			}
 			time_go(time-this.sys_time);
 			int i,j;
 			FillType[][] blocks=new FillType[12][8];
@@ -1607,4 +1615,3 @@ public class TetrisManiaImpl implements ExamOp
 	}
 
 }
-
