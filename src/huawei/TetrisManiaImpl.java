@@ -1556,8 +1556,8 @@ public class TetrisManiaImpl implements ExamOp
 			int length=i;
 			int[] list=new int[length];
 			for(i=0;i<length;i++){
-				System.out.print(list[i]);
 				list[i]=this.queue[i];
+				System.out.print(list[i]);
 			}
 			System.out.println(" ");			
 			return new OpResult(new Queue(list));
