@@ -100,6 +100,5 @@ public class TetrisManiaMain {
         jframe.setBounds (50, 50, 400,500);
         jframe.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         return jframe;
-
     }
 }

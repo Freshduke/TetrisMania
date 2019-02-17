@@ -269,6 +269,9 @@ public class TetrisManiaImpl implements ExamOp
 						break;
 					}
 				}
+				if(this.is_active==0){
+					Update();
+				}
 				System.out.println("S001");
 				return new OpResult(ReturnCode.S001);
 			}
@@ -291,7 +294,9 @@ public class TetrisManiaImpl implements ExamOp
 	{
 		// 首先判断活动积木的行列索引
 		// 再判断当前的旋转状态。
-
+		if(this.is_active==0){
+			Update();
+		}
 		int row = 0;      // 当前活动元素的左上角元素行列索引(row,column)
 		int column = 0;
 		int is_break_loop =0;
@@ -489,7 +494,7 @@ public class TetrisManiaImpl implements ExamOp
 
 		};
 
-		if(current_building_block_order == 5)      //9号积木
+		if(current_building_block_order == 9)      //9号积木
 		{
 			if(rotate_state == 0)
 			{
@@ -548,7 +553,7 @@ public class TetrisManiaImpl implements ExamOp
 						this.panel.table[i][j-1] = Element.star;
 					};
 		}
-		System.out.println("move left suceed!");
+		System.out.println("move left succeed!");
 
 		return new OpResult(ReturnCode.S001);
 	}
@@ -573,7 +578,9 @@ public class TetrisManiaImpl implements ExamOp
 	{
 		// 首先判断活动积木的行列索引
 		// 再判断当前的旋转状态。
-
+		if(this.is_active==0){
+			Update();
+		}
 		int row = 0;      // 当前活动元素的左上角元素行列索引(row,column)
 		int column = 0;
 		int is_break_loop =0;
@@ -1134,8 +1141,10 @@ public class TetrisManiaImpl implements ExamOp
 					};
 				}
 			};
-			System.out.println("move down suceed!");
+
+		System.out.println("move down suceed!");
 		return new OpResult(ReturnCode.S001);
+
 
 	}
 	
